@@ -1,8 +1,4 @@
-require "bundler"
-Bundler.require(:default)
-
 require "em-http"
-
 require "cloud_search/version"
 
 module CloudSearch
