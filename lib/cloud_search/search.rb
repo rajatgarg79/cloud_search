@@ -1,5 +1,3 @@
-require "json"
-
 module CloudSearch
   class Search
     def self.request(query, *fields)
