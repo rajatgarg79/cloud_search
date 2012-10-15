@@ -192,5 +192,64 @@ describe CloudSearch::Document do
       expect(document.errors[:fields]).to be_nil
     end
   end
+
+  context "#to_json" do
+    let(:attributes) { {
+      :type    => type,
+      :id      => "123abc",
+      :version => 123456,
+      :lang    => "pt",
+      :fields  => {:foo => "bar"}
+    } }
+    let(:parsed_json) { JSON.parse(described_class.new(attributes).to_json) }
+
+    context "when 'type' is 'add'" do
+      let(:type) { "add" }
+
+      it "includes the 'type' attribute" do
+        expect(parsed_json["type"]).to eq("add")
+      end
+
+      it "includes the 'id' attribute" do
+        expect(parsed_json["id"]).to eq("123abc")
+      end
+
+      it "includes the 'version' attribute" do
+        expect(parsed_json["version"]).to eq(123456)
+      end
+
+      it "includes the 'lang' attribute" do
+        expect(parsed_json["lang"]).to eq("pt")
+      end
+
+      it "includes the 'fields' attribute" do
+        expect(parsed_json["fields"]).to eq("foo" => "bar")
+      end
+    end
+
+    context "when 'type' is 'delete'" do
+      let(:type) { "delete" }
+
+      it "includes the 'type' attribute" do
+        expect(parsed_json["type"]).to eq("delete")
+      end
+
+      it "includes the 'id' attribute" do
+        expect(parsed_json["id"]).to eq("123abc")
+      end
+
+      it "includes the 'version' attribute" do
+        expect(parsed_json["version"]).to eq(123456)
+      end
+
+      it "does not include the 'lang' attribute" do
+        expect(parsed_json["lang"]).to be_nil
+      end
+
+      it "does not include the 'fields' attribute" do
+        expect(parsed_json["fields"]).to be_nil
+      end
+    end
+  end
 end
 

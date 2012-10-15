@@ -32,6 +32,12 @@ module CloudSearch
       errors.empty?
     end
 
+    def to_json
+      hash = {:type => type, :id => id, :version => version}
+      hash.merge!(:lang => lang, :fields => fields) if type == "add"
+      JSON.unparse hash
+    end
+
     private
 
     def run_id_validations
