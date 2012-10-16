@@ -32,10 +32,14 @@ module CloudSearch
       errors.empty?
     end
 
+    def as_json
+      {:type => type, :id => id, :version => version}.tap do |hash|
+        hash.merge!(:lang => lang, :fields => fields) if type == "add"
+      end
+    end
+
     def to_json
-      hash = {:type => type, :id => id, :version => version}
-      hash.merge!(:lang => lang, :fields => fields) if type == "add"
-      JSON.unparse hash
+      JSON.unparse as_json
     end
 
     private

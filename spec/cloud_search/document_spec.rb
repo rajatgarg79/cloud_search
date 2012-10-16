@@ -193,6 +193,66 @@ describe CloudSearch::Document do
     end
   end
 
+  context "#as_json" do
+    let(:attributes) { {
+      :type    => type,
+      :id      => "123abc",
+      :version => 123456,
+      :lang    => "pt",
+      :fields  => {:foo => "bar"}
+    } }
+    let(:document) { described_class.new attributes }
+    let(:as_json) { document.as_json }
+
+    context "when 'type' is 'add'" do
+      let(:type) { "add" }
+
+      it "includes the 'type' attribute" do
+        expect(as_json[:type]).to eq("add")
+      end
+
+      it "includes the 'id' attribute" do
+        expect(as_json[:id]).to eq("123abc")
+      end
+
+      it "includes the 'version' attribute" do
+        expect(as_json[:version]).to eq(123456)
+      end
+
+      it "includes the 'lang' attribute" do
+        expect(as_json[:lang]).to eq("pt")
+      end
+
+      it "includes the 'fields' attribute" do
+        expect(as_json[:fields]).to eq(:foo => "bar")
+      end
+    end
+
+    context "when 'type' is 'delete'" do
+      let(:type) { "delete" }
+
+      it "includes the 'type' attribute" do
+        expect(as_json[:type]).to eq("delete")
+      end
+
+      it "includes the 'id' attribute" do
+        expect(as_json[:id]).to eq("123abc")
+      end
+
+      it "includes the 'version' attribute" do
+        expect(as_json[:version]).to eq(123456)
+      end
+
+      it "does not include the 'lang' attribute" do
+        expect(as_json[:lang]).to be_nil
+      end
+
+      it "does not include the 'fields' attribute" do
+        expect(as_json[:fields]).to be_nil
+      end
+    end
+  end
+
   context "#to_json" do
     let(:attributes) { {
       :type    => type,
