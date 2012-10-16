@@ -3,13 +3,6 @@ require "spec_helper"
 describe CloudSearch::Search do
   subject { CloudSearch::Search }
 
-  before do
-    CloudSearch.configure do |config|
-      config.domain_id   = "pl6u4t3elu7dhsbwaqbsy3y6be"
-      config.domain_name = "imdb-movies"
-    end
-  end
-
   describe ".request" do
     let(:fields) { [:actor, :director, :title, :year, :text_relevance] }
 
