@@ -38,4 +38,71 @@ describe CloudSearch::Indexer do
       }.to raise_error(CloudSearch::InvalidDocument)
     end
   end
+
+  describe "#index" do
+    let(:document) { CloudSearch::Document.new(
+      :type    => type,
+      :id      => 678,
+      :version => version,
+      :lang    => :en,
+      :fields  => {:actor => ["Cassio Marques", "Willian Fernandes"], :director => ["Lucas, George"], :title => "Troy Wars"}
+    ) }
+    let(:indexer) { described_class.new }
+
+    context "adding a new document" do
+      around do |example|
+        VCR.use_cassette "index/request/add", &example
+      end
+
+      let(:type) { "add" }
+      let(:version) { 1 }
+
+      it "succeeds" do
+        indexer << document
+        resp, message = indexer.index
+        expect(resp["status"]).to eq("success")
+        expect(resp["adds"]).to eq(1)
+        expect(resp["deletes"]).to eq(0)
+        expect(message).to match(/^200/)
+      end
+    end
+
+    context "adding a batch of documents" do
+      around do |example|
+        VCR.use_cassette "index/request/add_in_batch", &example
+      end
+
+      let(:type) { "add" }
+      let(:version) { 5 }
+
+      it "succeeds" do
+        indexer << document
+        document2 = CloudSearch::Document.new :type => type, :version => version, :id => 679, :lang => :en, :fields => {:title => "Fight Club"}
+        document3 = CloudSearch::Document.new :type => type, :version => version, :id => 680, :lang => :en, :fields => {:title => "Lord of the Rings"}
+        indexer << document2
+        indexer << document3
+        resp, message = indexer.index
+        expect(resp["adds"]).to eq(3)
+        expect(resp["status"]).to eq("success")
+      end
+    end
+
+    context "deleting a document" do
+      around do |example|
+        VCR.use_cassette "index/request/delete", &example
+      end
+
+      let(:type) { "delete" }
+      let(:version) { 2 }
+
+      it "succeeds" do
+        indexer << document
+        resp, message = indexer.index
+        expect(resp["status"]).to eq("success")
+        expect(resp["adds"]).to eq(0)
+        expect(resp["deletes"]).to eq(1)
+        expect(message).to match(/^200/)
+      end
+    end
+  end
 end

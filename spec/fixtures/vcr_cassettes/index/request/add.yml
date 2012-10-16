@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://doc-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01/documents/batch
+    body:
+      encoding: UTF-8
+      string: ! '[{"type":"add","id":"678","version":1,"lang":"en","fields":{"actor":["Cassio
+        Marques","Willian Fernandes"],"director":["Lucas, George"],"title":"Troy Wars"}}]'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbjsgY2hhcnNldD11dGYtOA==
+      !binary "RGF0ZQ==":
+      - !binary |-
+        VHVlLCAxNiBPY3QgMjAxMiAxODowNzozOCBHTVQ=
+      !binary "U2VydmVy":
+      - !binary |-
+        U2VydmVy
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        NDY=
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        Q2xvc2U=
+    body:
+      encoding: US-ASCII
+      string: ! '{"status": "success", "adds": 1, "deletes": 0}'
+    http_version: 
+  recorded_at: Tue, 16 Oct 2012 18:07:42 GMT
+recorded_with: VCR 2.2.5

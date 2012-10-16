@@ -21,7 +21,7 @@ module CloudSearch
     end
 
     def document_url
-      @document_url ||= "http://doc-#{self.domain_name}-#{self.domain_id}.#{self.region}.cloudsearch.amazonaws.com"
+      @document_url ||= "http://doc-#{self.domain_name}-#{self.domain_id}.#{self.region}.cloudsearch.amazonaws.com/#{self.api_version}"
     end
 
     def region
