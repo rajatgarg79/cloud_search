@@ -1,7 +1,7 @@
 module CloudSearch
   class Searcher
 
-    def request
+    def search
       response = SearchResponse.new
 
       EM.run do
