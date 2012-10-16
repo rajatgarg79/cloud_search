@@ -28,24 +28,22 @@ CloudSearch.configure do |config|
 end
 
 # Search for 'star wars' on 'imdb-movies'
-resp, msg = CloudSearch::Search.request("star wars",
-                                        :actor,
-                                        :director,
-                                        :title,
-                                        :year,
-                                        :text_relevance)
+search = CloudSearch::Search.new
+resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
+      .query("star wars")
+      .request
 
 # Or you can search using part of the name
-resp, msg = CloudSearch::Search.request("matri*",
-                                        :actor,
-                                        :title,
-                                        :year,
-                                        :text_relevance)
+search = CloudSearch::Search.new
+resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
+      .query("matri*")
+      .request
 
 # Number of results
-resp["found"]
+resp.hits
 
-resp["hit"].each do |result|
+# Results
+res.results.each do |result|
   movie = result["data"]
 
   # List of actors on the movie
