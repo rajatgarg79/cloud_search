@@ -1,5 +1,5 @@
 module CloudSearch
-  class Search
+  class Searcher
 
     def request
       response = SearchResponse.new

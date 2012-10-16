@@ -1,7 +1,7 @@
 require "spec_helper"
 
-describe CloudSearch::Search do
-  subject { CloudSearch::Search.new }
+describe CloudSearch::Searcher do
+  subject { described_class.new }
 
   describe "#request" do
     before do

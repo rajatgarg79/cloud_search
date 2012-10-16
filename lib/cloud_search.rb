@@ -4,7 +4,7 @@ require "cloud_search/version"
 
 module CloudSearch
   autoload :Config,          "cloud_search/config"
-  autoload :Search,          "cloud_search/search"
+  autoload :Searcher,        "cloud_search/searcher"
   autoload :SearchResponse,  "cloud_search/search_response"
   autoload :Indexer,         "cloud_search/indexer"
   autoload :Document,        "cloud_search/document"
