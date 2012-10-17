@@ -17,7 +17,7 @@ describe CloudSearch::Config do
     it { expect(subject.domain_name).to eql("imdb-movies") }
     it { expect(subject.document_url).to eql("http://doc-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01") }
     it { expect(subject.region).to eql("us-east-1") }
-    it { expect(subject.search_url).to eql("http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com") }
+    it { expect(subject.search_url).to eql("http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01") }
   end
 end
 

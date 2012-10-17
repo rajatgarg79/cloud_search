@@ -8,8 +8,8 @@ module CloudSearch
         http = EM::HttpRequest.new(build_url).get
 
         http.callback do
-          response.http_code = http.response_header.status 
-          response.body = JSON.parse(http.response) 
+          response.http_code = http.response_header.status
+          response.body = JSON.parse(http.response)
 
           EM.stop
         end
@@ -35,11 +35,10 @@ module CloudSearch
       self
     end
 
-    private 
+    private
 
     def build_url
       url = CloudSearch.config.search_url
-      url+= "/#{CloudSearch.config.api_version}"
       url+= "/search"
       url+= "?q=#{CGI.escape(@query)}"
       url+= "&return-fields=#{CGI.escape(@fields.join(","))}" if @fields.any?
