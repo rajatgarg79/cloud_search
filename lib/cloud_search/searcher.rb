@@ -5,7 +5,7 @@ module CloudSearch
       response = SearchResponse.new
 
       EM.run do
-        http = EM::HttpRequest.new(build_url).get
+        http = EM::HttpRequest.new(url).get
 
         http.callback do
           response.http_code = http.response_header.status
@@ -37,7 +37,7 @@ module CloudSearch
 
     private
 
-    def build_url
+    def url
       url = CloudSearch.config.search_url
       url+= "/search"
       url+= "?q=#{CGI.escape(@query)}"
