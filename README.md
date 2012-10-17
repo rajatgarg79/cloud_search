@@ -64,7 +64,7 @@ end
 
 ``` ruby
 document = CloudSearch::Document.new :type => "add", # or "delete"
-                                     :version => version,
+                                     :version => 123,
                                      :id => 680, :lang => :en,
                                      :fields => {:title => "Lord of the Rings"}
 
