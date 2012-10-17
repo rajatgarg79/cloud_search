@@ -10,40 +10,28 @@ describe CloudSearch::Searcher do
         .query("star wars")
     end
 
+    around { |example| VCR.use_cassette "search/request/full", &example }
+
     context "given valid parameters" do
       it "returns http 200 code" do
-        VCR.use_cassette("search/request/full") do
-          resp = subject.search
-          resp.http_code.should == 200
-        end
+        resp = subject.search
+        resp.http_code.should == 200
       end
 
       it "has found results" do
-        VCR.use_cassette("search/request/full") do
-          resp = subject.search
-          resp.should be_found
-        end
+        resp = subject.search
+        resp.should be_found
       end
 
       it "returns number of hits" do
-        VCR.use_cassette("search/request/full") do
-          resp = subject.search
-          expect(resp.hits).to be == 7
-        end
+        resp = subject.search
+        expect(resp.hits).to be == 7
       end
 
       it "returns Episode II" do
-        VCR.use_cassette("search/request/full") do
-          resp = subject.search
-          resp.results.inject([]){|acc, i| acc << i['data']['title']}.flatten
-          .should include "Star Wars: Episode II - Attack of the Clones"
-        end
-      end
-    end
-
-    context "given invalid parameters" do
-      it "returns" do
-        
+        resp = subject.search
+        resp.results.inject([]){|acc, i| acc << i['data']['title']}.flatten
+        .should include "Star Wars: Episode II - Attack of the Clones"
       end
     end
   end
