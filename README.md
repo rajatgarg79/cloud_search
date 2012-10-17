@@ -60,6 +60,20 @@ res.results.each do |result|
 end
 ```
 
+## Indexing documents
+
+``` ruby
+document = CloudSearch::Document.new :type => "add", # or "delete"
+                                     :version => version,
+                                     :id => 680, :lang => :en,
+                                     :fields => {:title => "Lord of the Rings"}
+
+indexer = CloudSearch::Indexer.new
+indexer << document # add as many documents as you want
+indexer.index
+```
+
+
 ## Contributing
 
 1. Fork it
