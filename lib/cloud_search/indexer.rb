@@ -18,10 +18,7 @@ module CloudSearch
     def index
       response, message = nil
       EM.run do
-        url = CloudSearch.config.document_url
-        url+= "/documents/batch"
-
-        http = EM::HttpRequest.new(url).post :body => JSON.unparse(@documents.map(&:as_json)), :head => {"Content-Type" => "application/json"}
+        http = EM::HttpRequest.new(url).post :body => documents_json, :head => headers
 
         http.callback {
           message  = "#{http.response_header.status} - #{http.response.length} bytes\n#{url}\n"
@@ -38,6 +35,20 @@ module CloudSearch
       end
 
       [response, message]
+    end
+
+    private
+
+    def headers
+      {"Content-Type" => "application/json"}
+    end
+
+    def documents_json
+      JSON.unparse(@documents.map(&:as_json))
+    end
+
+    def url
+      "#{CloudSearch.config.document_url}/documents/batch"
     end
   end
 end
