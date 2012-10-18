@@ -13,15 +13,11 @@ module CloudSearch
         http.callback do
           response.http_code = http.response_header.status
           response.body = JSON.parse(http.response)
-
-          EM.stop
         end
 
         http.errback do
           response.http_code = http.error
           response.body = http.response
-
-          EM.stop
         end
       end
 
