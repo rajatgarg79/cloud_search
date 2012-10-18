@@ -18,23 +18,9 @@ module CloudSearch
     end
 
     def index
-      response, message = nil
-      EM.run do
-        http = EM::HttpRequest.new(url).post :body => documents_json, :head => headers
-
-        http.callback {
-          message  = "#{http.response_header.status} - #{http.response.length} bytes\n#{url}\n"
-          response = JSON.parse(http.response)
-
-          EM.stop
-        }
-
-        http.errback {
-          message = "#{url}\n#{http.error}"
-
-          EM.stop
-        }
-      end
+      cloud_search_response = RestClient.post url, documents_json, headers
+      message               = "#{cloud_search_response.code} - #{cloud_search_response.length} bytes\n#{url}\n"
+      response              = JSON.parse cloud_search_response.body
 
       [response, message]
     end

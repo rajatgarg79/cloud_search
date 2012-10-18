@@ -25,6 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "vcr"       , "~> 2.2"
   gem.add_development_dependency "webmock"
 
-  gem.add_dependency "em-http-request"       , "~> 1.0"
+  # gem.add_dependency "em-http-request"       , "~> 1.0"
+  gem.add_dependency "rest-client", "~> 1.6.7"
 end
 

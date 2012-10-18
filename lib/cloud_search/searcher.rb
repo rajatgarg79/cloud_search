@@ -5,21 +5,11 @@ module CloudSearch
     include ConfigurationChecking
 
     def search
-      response = SearchResponse.new
+      response              = SearchResponse.new
 
-      EM.run do
-        http = EM::HttpRequest.new(url).get
-
-        http.callback do
-          response.http_code = http.response_header.status
-          response.body = JSON.parse(http.response)
-        end
-
-        http.errback do
-          response.http_code = http.error
-          response.body = http.response
-        end
-      end
+      cloud_search_response = RestClient.get url
+      response.http_code    = cloud_search_response.code
+      response.body         = JSON.parse(cloud_search_response.body)
 
       response.items_per_page = items_per_page
       response

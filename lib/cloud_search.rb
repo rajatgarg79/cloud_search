@@ -1,4 +1,5 @@
-require "em-http"
+# require "em-http"
+require "rest_client"
 require "json"
 require "cloud_search/version"
 
