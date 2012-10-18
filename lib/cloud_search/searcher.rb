@@ -22,12 +22,17 @@ module CloudSearch
         end
       end
 
+      response.items_per_page = items_per_page
       response
     end
-
-    def query(q)
-      @query = q
+    
+    def with_query(query)
+      @query = query
       self
+    end
+
+    def query
+      @query or ''
     end
 
     def with_fields(*fields)
@@ -35,13 +40,36 @@ module CloudSearch
       self
     end
 
-    private
+    def with_items_per_page(items_per_page)
+      @items_per_page = items_per_page
+      self
+    end
+
+    def items_per_page
+      @items_per_page or 10
+    end
+
+    def at_page(page)
+      @page_number = (page && page < 1) ? 1 : page
+      self
+    end
+
+    def page_number
+      @page_number or 1
+    end
+
+    def start
+      return 0 if page_number <= 1
+      (items_per_page * page_number) - 1
+    end
 
     def url
-      url = CloudSearch.config.search_url
-      url+= "/search"
-      url+= "?q=#{CGI.escape(@query)}"
-      url+= "&return-fields=#{CGI.escape(@fields.join(","))}" if @fields.any?
+      url  = CloudSearch.config.search_url
+      url += "/#{CloudSearch.config.api_version}/search"
+      url.tap do |url|
+        url.concat("?q=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
+        url.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?
+      end
     end
   end
 end

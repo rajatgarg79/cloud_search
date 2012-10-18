@@ -22,30 +22,33 @@ Or install it yourself as:
 
 The example bellow uses the Amazon's example database called `imdb-movies`:
 
-```ruby
 # Use your AWS CloudSearch configuration
+``` ruby
 CloudSearch.configure do |config|
   config.domain_id   = "pl6u4t3elu7dhsbwaqbsy3y6be"
   config.domain_name = "imdb-movies"
 end
+```
 
 # Search for 'star wars' on 'imdb-movies'
+``` ruby
 search = CloudSearch::Search.new
 resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
-      .query("star wars")
-      .request
+      .with_query("star wars")
+      .search
+```
 
 # Or you can search using part of the name
+``` ruby
 search = CloudSearch::Search.new
 resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
-      .query("matri*")
-      .request
-
-# Number of results
-resp.hits
+      .with_query("matri*")
+      .search
+```
 
 # Results
-res.results.each do |result|
+``` ruby
+resp.results.each do |result|
   movie = result["data"]
 
   # List of actors on the movie
@@ -60,6 +63,25 @@ res.results.each do |result|
 end
 ```
 
+## Pagination
+
+The results you get back are (currently) API-compatible with will\_paginate:
+  
+``` ruby
+search = CloudSearch::Search.new
+resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
+      .with_query("star wars")
+      .with_items_per_page(30)
+      .at_pate(10)
+      .search
+
+resp.total_entries #=> 5000
+resp.total_pages   #=> 167
+resp.current_page  #=> 10
+resp.offset        #=> 300
+resp.page_size     #=> 30
+```
+
 ## Indexing documents
 
 ``` ruby
@@ -72,7 +94,6 @@ indexer = CloudSearch::Indexer.new
 indexer << document # add as many documents as you want
 indexer.index
 ```
-
 
 ## Contributing
 

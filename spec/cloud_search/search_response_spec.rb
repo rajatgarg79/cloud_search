@@ -27,9 +27,33 @@ describe CloudSearch::SearchResponse do
       end
     end
 
+    describe "#total_entries" do
+      it "returns same value from hits" do
+        subject.hits.should == subject.total_entries
+      end
+    end
+
     describe "#found?" do
       it "returns true when found documents" do
         subject.should be_found
+      end
+    end
+
+    describe "#items_per_page" do
+      it "returns items per page" do
+        subject.items_per_page.should == 10
+      end
+    end
+
+    describe "#page_size" do
+      it "returns number of items per page" do
+        subject.items_per_page.should == subject.items_per_page
+      end
+    end
+
+    describe "#offset" do
+      it "returns offset" do
+        subject.offset.should == 0
       end
     end
   end
@@ -56,5 +80,23 @@ describe CloudSearch::SearchResponse do
         subject.should_not be_found
       end
     end
+
+    describe "#items_per_page" do
+      it "returns items per page" do
+        subject.items_per_page.should == 10
+      end
+    end
+
+    describe "#page_size" do
+      it "returns number of items per page" do
+        subject.items_per_page.should == subject.items_per_page
+      end
+    end
+
+    describe "#offset" do
+      it "returns offset" do
+        subject.offset.should == 0
+      end
+    end   
   end
 end
