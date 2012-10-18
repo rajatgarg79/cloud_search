@@ -32,18 +32,26 @@ end
 
 ### Search for 'star wars' on 'imdb-movies'
 ``` ruby
-search = CloudSearch::Search.new
-resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
-      .with_query("star wars")
-      .search
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+         .with_query("star wars")
+         .search
 ```
 
 ### Or you can search using part of the name
 ``` ruby
-search = CloudSearch::Search.new
-resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
-      .with_query("matri*")
-      .search
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+         .with_query("matri*")
+         .search
+```
+
+### You can also search using binary queries
+``` ruby
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+         .with_binary_query("year:2000")
+         .search
 ```
 
 ## Results
@@ -68,12 +76,12 @@ end
 The results you get back are (currently) API-compatible with will\_paginate:
 
 ``` ruby
-search = CloudSearch::Search.new
-resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
-      .with_query("star wars")
-      .with_items_per_page(30)
-      .at_page(10)
-      .search
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+         .with_query("star wars")
+         .with_items_per_page(30)
+         .at_page(10)
+         .search
 
 resp.total_entries #=> 5000
 resp.total_pages   #=> 167
@@ -91,7 +99,7 @@ document = CloudSearch::Document.new :type => "add", # or "delete"
                                      :fields => {:title => "Lord of the Rings"}
 
 indexer = CloudSearch::Indexer.new
-indexer << document # add as many documents as you want
+indexer << document # add as many documents as you want (CloudSearch currently sets a limit of 5MB per documents batch)
 indexer.index
 ```
 
