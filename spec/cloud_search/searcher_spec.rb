@@ -3,6 +3,10 @@ require "spec_helper"
 describe CloudSearch::Searcher do
   subject { described_class.new }
 
+  let(:url_prefix) do
+    "#{CloudSearch.config.search_url}/search?"
+  end
+
   describe "#query" do
     it "returns default query" do
       subject.query.should == ""
@@ -25,6 +29,27 @@ describe CloudSearch::Searcher do
     end
   end
 
+  describe "#with_binary_query" do
+    it "sets the query mode to 'binary'" do
+      subject.with_binary_query("year:2000")
+      subject.should be_binary_query
+    end
+
+    it "returns the searcher instance" do
+      subject.with_binary_query("year:2000").should == subject
+    end
+
+    it "sets the query term" do
+      subject.with_binary_query("year:2000")
+      subject.query.should == "year:2000"
+    end
+
+    it "uses 'bq' to specify the query in the URL" do
+      subject.with_binary_query("year:2000")
+      subject.url.should == "#{url_prefix}bq=year%3A2000&size=10&start=0"
+    end
+  end
+
   describe "#with_fields" do
     it "returns #{described_class} instance" do
       subject.with_fields(:foo).should == subject
@@ -42,7 +67,7 @@ describe CloudSearch::Searcher do
 
     it "returns default items per page when it's tried to set nil value" do
       subject.with_items_per_page(nil)
-      subject.items_per_page.should == 10 
+      subject.items_per_page.should == 10
     end
   end
 
@@ -91,10 +116,6 @@ describe CloudSearch::Searcher do
   end
 
   describe "#url" do
-    let(:url_prefix) do
-      "#{CloudSearch.config.search_url}/search?"
-    end
-
     it "returns default cloud search url" do
       subject.url.should == "#{url_prefix}q=&size=10&start=0"
     end

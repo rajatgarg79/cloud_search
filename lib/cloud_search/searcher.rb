@@ -25,14 +25,24 @@ module CloudSearch
       response.items_per_page = items_per_page
       response
     end
-    
+
     def with_query(query)
       @query = query
       self
     end
 
+    def with_binary_query(query)
+      @binary = true
+      with_query query
+      self
+    end
+
     def query
       @query or ''
+    end
+
+    def binary_query?
+      !!@binary
     end
 
     def with_fields(*fields)
@@ -65,9 +75,15 @@ module CloudSearch
 
     def url
       "#{CloudSearch.config.search_url}/search".tap do |u|
-        u.concat("?q=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
+        u.concat("?#{query_parameter}=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
         u.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?
       end
+    end
+
+    private
+
+    def query_parameter
+      binary_query? ? "bq" : "q"
     end
   end
 end
