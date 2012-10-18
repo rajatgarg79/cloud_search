@@ -1,5 +1,6 @@
 module CloudSearch
   class Searcher
+    include ConfigurationChecking
 
     def search
       response = SearchResponse.new
@@ -74,6 +75,8 @@ module CloudSearch
     end
 
     def url
+      check_configuration_parameters
+
       "#{CloudSearch.config.search_url}/search".tap do |u|
         u.concat("?#{query_parameter}=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
         u.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?

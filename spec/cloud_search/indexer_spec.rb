@@ -65,6 +65,36 @@ describe CloudSearch::Indexer do
         expect(resp["deletes"]).to eq(0)
         expect(message).to match(/^200/)
       end
+
+      context "when the domain id was not configured" do
+        around do |example|
+          domain_id = CloudSearch.config.domain_id
+          CloudSearch.config.domain_id = nil
+          example.call
+          CloudSearch.config.domain_id = domain_id
+        end
+
+        it "raises an error" do
+          expect {
+            indexer.index
+          }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_id' configuration parameter")
+        end
+      end
+
+      context "when the domain name was not configured" do
+        around do |example|
+          domain_name = CloudSearch.config.domain_name
+          CloudSearch.config.domain_name = nil
+          example.call
+          CloudSearch.config.domain_name = domain_name
+        end
+
+        it "raises an error" do
+          expect {
+            indexer.index
+          }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_name' configuration parameter")
+        end
+      end
     end
 
     context "adding a batch of documents" do

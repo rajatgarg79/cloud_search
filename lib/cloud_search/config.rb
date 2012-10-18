@@ -1,6 +1,21 @@
 require "singleton"
 
 module CloudSearch
+  class MissingConfigurationError < StandardError
+    def initialize(parameter_name)
+      super "Missing '#{parameter_name}' configuration parameter"
+    end
+  end
+
+  module ConfigurationChecking
+    private
+
+    def check_configuration_parameters
+      raise MissingConfigurationError.new("domain_id") if CloudSearch.config.domain_id.nil?
+      raise MissingConfigurationError.new("domain_name") if CloudSearch.config.domain_name.nil?
+    end
+  end
+
   class Config
     include Singleton
 

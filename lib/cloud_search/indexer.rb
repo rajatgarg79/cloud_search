@@ -1,5 +1,7 @@
 module CloudSearch
   class Indexer
+    include ConfigurationChecking
+
     def initialize
       @documents = []
     end
@@ -48,6 +50,8 @@ module CloudSearch
     end
 
     def url
+      check_configuration_parameters
+
       "#{CloudSearch.config.document_url}/documents/batch"
     end
   end

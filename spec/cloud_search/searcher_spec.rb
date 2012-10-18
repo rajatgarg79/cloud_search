@@ -146,6 +146,36 @@ describe CloudSearch::Searcher do
 
     around { |example| VCR.use_cassette "search/request/full", &example }
 
+    context "when the domain id was not configured" do
+      around do |example|
+        domain_id = CloudSearch.config.domain_id
+        CloudSearch.config.domain_id = nil
+        example.call
+        CloudSearch.config.domain_id = domain_id
+      end
+
+      it "raises an error" do
+        expect {
+          subject.search
+        }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_id' configuration parameter")
+      end
+    end
+
+    context "when the domain name was not configured" do
+      around do |example|
+        domain_name = CloudSearch.config.domain_name
+        CloudSearch.config.domain_name = nil
+        example.call
+        CloudSearch.config.domain_name = domain_name
+      end
+
+      it "raises an error" do
+        expect {
+          subject.search
+        }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_name' configuration parameter")
+      end
+    end
+
     it "returns http 200 code" do
       resp = subject.search
       resp.http_code.should == 200
