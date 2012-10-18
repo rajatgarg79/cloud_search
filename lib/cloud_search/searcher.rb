@@ -64,11 +64,9 @@ module CloudSearch
     end
 
     def url
-      url  = CloudSearch.config.search_url
-      url += "/#{CloudSearch.config.api_version}/search"
-      url.tap do |url|
-        url.concat("?q=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
-        url.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?
+      "#{CloudSearch.config.search_url}/search".tap do |u|
+        u.concat("?q=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
+        u.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?
       end
     end
   end

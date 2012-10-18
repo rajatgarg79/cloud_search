@@ -92,7 +92,7 @@ describe CloudSearch::Searcher do
 
   describe "#url" do
     let(:url_prefix) do
-      "#{CloudSearch.config.search_url}/#{CloudSearch.config.api_version}/search?"
+      "#{CloudSearch.config.search_url}/search?"
     end
 
     it "returns default cloud search url" do
