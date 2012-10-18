@@ -22,7 +22,7 @@ Or install it yourself as:
 
 The example bellow uses the Amazon's example database called `imdb-movies`:
 
-# Use your AWS CloudSearch configuration
+### Use your AWS CloudSearch configuration
 ``` ruby
 CloudSearch.configure do |config|
   config.domain_id   = "pl6u4t3elu7dhsbwaqbsy3y6be"
@@ -30,7 +30,7 @@ CloudSearch.configure do |config|
 end
 ```
 
-# Search for 'star wars' on 'imdb-movies'
+### Search for 'star wars' on 'imdb-movies'
 ``` ruby
 search = CloudSearch::Search.new
 resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
@@ -38,7 +38,7 @@ resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
       .search
 ```
 
-# Or you can search using part of the name
+### Or you can search using part of the name
 ``` ruby
 search = CloudSearch::Search.new
 resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
@@ -46,7 +46,7 @@ resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
       .search
 ```
 
-# Results
+## Results
 ``` ruby
 resp.results.each do |result|
   movie = result["data"]
