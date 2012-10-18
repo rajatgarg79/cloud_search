@@ -94,10 +94,11 @@ resp.page_size     #=> 30
 ## Indexing documents
 
 ``` ruby
-document = CloudSearch::Document.new :type => "add", # or "delete"
+document = CloudSearch::Document.new :type    => "add", # or "delete"
                                      :version => 123,
-                                     :id => 680, :lang => :en,
-                                     :fields => {:title => "Lord of the Rings"}
+                                     :id      => 680,
+                                     :lang    => :en,
+                                     :fields  => {:title => "Lord of the Rings"}
 
 indexer = CloudSearch::Indexer.new
 indexer << document # add as many documents as you want (CloudSearch currently sets a limit of 5MB per documents batch)
