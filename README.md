@@ -2,7 +2,8 @@
 
 # CloudSearch
 
-TODO: Write a gem description
+This is a simple Ruby wrapper around the Amazon's CloudSearch API. It has support for searching (with both simple and binary queries), pagination
+and documents indexing.
 
 ## Installation
 
