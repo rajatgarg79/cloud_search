@@ -66,13 +66,13 @@ end
 ## Pagination
 
 The results you get back are (currently) API-compatible with will\_paginate:
-  
+
 ``` ruby
 search = CloudSearch::Search.new
 resp   = search.with_fields(:actor, :director, :title, :year, :text_relevance)
       .with_query("star wars")
       .with_items_per_page(30)
-      .at_pate(10)
+      .at_page(10)
       .search
 
 resp.total_entries #=> 5000
