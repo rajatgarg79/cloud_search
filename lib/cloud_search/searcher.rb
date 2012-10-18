@@ -31,8 +31,8 @@ module CloudSearch
       self
     end
 
-    def with_binary_query(query)
-      @binary = true
+    def with_boolean_query(query)
+      @boolean = true
       with_query query
       self
     end
@@ -41,8 +41,8 @@ module CloudSearch
       @query or ''
     end
 
-    def binary_query?
-      !!@binary
+    def boolean_query?
+      !!@boolean
     end
 
     def with_fields(*fields)
@@ -83,7 +83,7 @@ module CloudSearch
     private
 
     def query_parameter
-      binary_query? ? "bq" : "q"
+      boolean_query? ? "bq" : "q"
     end
   end
 end

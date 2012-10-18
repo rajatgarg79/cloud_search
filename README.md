@@ -2,7 +2,7 @@
 
 # CloudSearch
 
-This is a simple Ruby wrapper around the Amazon's CloudSearch API. It has support for searching (with both simple and binary queries), pagination
+This is a simple Ruby wrapper around the Amazon's CloudSearch API. It has support for searching (with both simple and boolean queries), pagination
 and documents indexing.
 
 ## Installation
@@ -47,11 +47,11 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
          .search
 ```
 
-### You can also search using binary queries
+### You can also search using boolean queries
 ``` ruby
 searcher = CloudSearch::Searcher.new
 resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
-         .with_binary_query("year:2000")
+         .with_boolean_query("year:2000")
          .search
 ```
 

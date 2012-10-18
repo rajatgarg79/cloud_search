@@ -29,23 +29,23 @@ describe CloudSearch::Searcher do
     end
   end
 
-  describe "#with_binary_query" do
-    it "sets the query mode to 'binary'" do
-      subject.with_binary_query("year:2000")
-      subject.should be_binary_query
+  describe "#with_boolean_query" do
+    it "sets the query mode to 'boolean'" do
+      subject.with_boolean_query("year:2000")
+      subject.should be_boolean_query
     end
 
     it "returns the searcher instance" do
-      subject.with_binary_query("year:2000").should == subject
+      subject.with_boolean_query("year:2000").should == subject
     end
 
     it "sets the query term" do
-      subject.with_binary_query("year:2000")
+      subject.with_boolean_query("year:2000")
       subject.query.should == "year:2000"
     end
 
     it "uses 'bq' to specify the query in the URL" do
-      subject.with_binary_query("year:2000")
+      subject.with_boolean_query("year:2000")
       subject.url.should == "#{url_prefix}bq=year%3A2000&size=10&start=0"
     end
   end
