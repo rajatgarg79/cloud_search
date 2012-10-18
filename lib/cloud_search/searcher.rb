@@ -1,3 +1,5 @@
+require 'uri'
+
 module CloudSearch
   class Searcher
     include ConfigurationChecking
@@ -39,7 +41,7 @@ module CloudSearch
     end
 
     def query
-      @query or ''
+      URI.escape(@query || '').gsub('&', '%26')
     end
 
     def boolean_query?
@@ -78,8 +80,8 @@ module CloudSearch
       check_configuration_parameters
 
       "#{CloudSearch.config.search_url}/search".tap do |u|
-        u.concat("?#{query_parameter}=#{CGI.escape(query)}&size=#{items_per_page}&start=#{start}")
-        u.concat("&return-fields=#{CGI.escape(@fields.join(","))}") unless @fields.nil? or @fields.empty?
+        u.concat("?#{query_parameter}=#{query}&size=#{items_per_page}&start=#{start}")
+        u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields && @fields.any?
       end
     end
 

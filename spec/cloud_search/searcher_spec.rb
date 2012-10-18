@@ -46,7 +46,7 @@ describe CloudSearch::Searcher do
 
     it "uses 'bq' to specify the query in the URL" do
       subject.with_boolean_query("year:2000")
-      subject.url.should == "#{url_prefix}bq=year%3A2000&size=10&start=0"
+      subject.url.should == "#{url_prefix}bq=year:2000&size=10&start=0"
     end
   end
 
@@ -124,6 +124,14 @@ describe CloudSearch::Searcher do
       subject.with_query("foo").url.should == "#{url_prefix}q=foo&size=10&start=0"
     end
 
+    it "returns cloud search url with foo query" do
+      subject.with_query("f&oo").url.should == "#{url_prefix}q=f%26oo&size=10&start=0"
+    end
+
+    it "returns cloud search url with foo* query" do
+      subject.with_query("foo*").url.should == "#{url_prefix}q=foo*&size=10&start=0"
+    end
+
     it "returns cloud search url with size equals 20" do
       subject.with_items_per_page(20).url.should == "#{url_prefix}q=&size=20&start=0"
     end
@@ -133,7 +141,7 @@ describe CloudSearch::Searcher do
     end
 
     it "returns cloud search url with foo and bar fields" do
-      subject.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo%2Cbar"
+      subject.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo,bar"
     end
   end
 
