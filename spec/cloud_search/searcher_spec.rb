@@ -111,7 +111,7 @@ describe CloudSearch::Searcher do
 
     it "returns start index 19 for page 2" do
       subject.at_page(2)
-      subject.start.should == 19
+      subject.start.should == 11
     end
   end
 
@@ -137,7 +137,7 @@ describe CloudSearch::Searcher do
     end
 
     it "returns cloud search url with start at 19" do
-      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=19"
+      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=11"
     end
 
     it "returns cloud search url with foo and bar fields" do
@@ -151,8 +151,6 @@ describe CloudSearch::Searcher do
       .with_fields(:actor, :director, :title, :year, :text_relevance)
       .with_query("star wars")
     end
-
-    around { |example| VCR.use_cassette "search/request/full", &example }
 
     context "when the domain id was not configured" do
       around do |example|
@@ -184,25 +182,57 @@ describe CloudSearch::Searcher do
       end
     end
 
-    it "returns http 200 code" do
-      resp = subject.search
-      resp.http_code.should == 200
-    end
+    context "when search" do
+      around { |example| VCR.use_cassette "search/request/full", &example }
 
-    it "has found results" do
-      resp = subject.search
-      resp.should be_found
-    end
+      it "returns http 200 code" do
+        resp = subject.search
+        resp.http_code.should == 200
+      end
 
-    it "returns number of hits" do
-      resp = subject.search
-      expect(resp.hits).to be == 7
-    end
+      it "has found results" do
+        resp = subject.search
+        resp.should be_found
+      end
 
-    it "returns Episode II" do
-      resp = subject.search
-      resp.results.inject([]){|acc, i| acc << i['data']['title']}.flatten
-      .should include "Star Wars: Episode II - Attack of the Clones"
+      it "returns number of hits" do
+        resp = subject.search
+        expect(resp.hits).to be == 7
+      end
+
+      it "returns Episode II" do
+        resp = subject.search
+        resp.results.map{ |item| item['data']['title'] }.flatten
+        .should include "Star Wars: Episode II - Attack of the Clones"
+      end
+    end
+    context "when paginate result" do
+      before do
+        subject
+        .with_fields(:actor, :director, :title, :year, :text_relevance)
+        .with_query("star wars")
+      end
+
+
+      it "returns first page" do
+        VCR.use_cassette "search/request/paginated_first_page" do
+          subject.with_items_per_page(4)
+          subject.at_page(1)
+          resp = subject.search
+          resp.results.map{ |item| item['data']['title'] }.flatten
+          .should include "Star Wars: Episode II - Attack of the Clones"
+        end
+      end
+
+      it "returns second page" do
+        VCR.use_cassette "search/request/paginated_second_page" do
+          subject.with_items_per_page(4)
+          subject.at_page(2)
+          resp = subject.search
+          resp.results.map{ |item| item['data']['title'] }.flatten
+          .should include "Star Wars: Episode III - Revenge of the Sith"
+        end
+      end
     end
   end
 end

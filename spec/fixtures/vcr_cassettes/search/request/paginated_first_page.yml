@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=star%20wars&return-fields=actor,director,title,year,text_relevance&size=4&start=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Oct 2012 12:54:26 GMT
+      Server:
+      - Server
+      Content-Length:
+      - '2025'
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"rank":"-text_relevance","match-expr":"(label ''star wars'')","hits":{"found":7,"start":0,"hit":[{"id":"tt1185834","data":{"actor":["Abercrombie,
+        Ian","Baker, Dee Bradley","Burton, Corey","Eckstein, Ashley","Futterman, Nika","Kane,
+        Tom","Lanter, Matt","Taber, Catherine","Taylor, James Arnold","Wood, Matthew"],"director":["Filoni,
+        Dave"],"text_relevance":["307"],"title":["Star Wars: The Clone Wars"],"year":["2008"]}},{"id":"tt0076759","data":{"actor":["Baker,
+        Kenny","Cushing, Peter","Daniels, Anthony","De Aragon, Maria","Diamond, Peter","Fisher,
+        Carrie","Ford, Harrison","Goffe, Rusty","Guinness, Alec","Hamill, Mark","Johnston,
+        Joe","Jones, James Earl","Lyons, Derek","Mayhew, Peter","McCallum, Rick","Prowse,
+        David","Rimmer, Shane","Tierney, Malcolm","Tippett, Phil","Ward, Larry"],"director":["Lucas,
+        George"],"text_relevance":["270"],"title":["Star Wars"],"year":["1977"]}},{"id":"tt0121765","data":{"actor":["Allen,
+        Amy","August, Pernilla","Christensen, Hayden","Csokas, Marton","Fantl, Nicole","Jackson,
+        Samuel L.","Johnson, Fiona","Lee, Christopher","Logan, Daniel","Lucas, Amanda","Lucas,
+        Jett","Lucas, Katie","McDiarmid, Ian","McGregor, Ewan","Morrison, Temuera","Oz,
+        Frank","Portman, Natalie","Smits, Jimmy","Thompson, Jack","Wood, Matthew"],"director":["Lucas,
+        George"],"text_relevance":["269"],"title":["Star Wars: Episode II - Attack
+        of the Clones"],"year":["2002"]}},{"id":"tt0080684","data":{"actor":["Anderson,
+        Bob","Baker, Kenny","Bonehill, Richard","Capri, Mark","Daniels, Anthony","Diamond,
+        Peter","Fisher, Carrie","Ford, Harrison","Guinness, Alec","Hamill, Mark","Jones,
+        James Earl","Mayhew, Peter","McQuarrie, Ralph","Morse, Ralph","Oz, Frank","Prowse,
+        David","Santiago, Michael","Williams, Billy Dee","Williams, Treat","Wingreen,
+        Jason"],"director":["Kershner, Irvin"],"text_relevance":["268"],"title":["Star
+        Wars: Episode V - The Empire Strikes Back"],"year":["1980"]}}]},"info":{"rid":"d1b8bf24ec64151ef1900a937725719ec6661625fa5a3d78f6504f0c0ebd44595331de2b01a2900e","time-ms":3,"cpu-time-ms":0}}'
+    http_version: 
+  recorded_at: Fri, 19 Oct 2012 12:54:31 GMT
+recorded_with: VCR 2.2.4

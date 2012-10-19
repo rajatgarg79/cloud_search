@@ -13,7 +13,6 @@ module CloudSearch
       @response.http_code    = cloud_search_response.code
       @response.body         = cloud_search_response.body
 
-      response.items_per_page = items_per_page
       @response
     end
 
@@ -43,16 +42,16 @@ module CloudSearch
     end
 
     def with_items_per_page(items_per_page)
-      @items_per_page = items_per_page
+      @response.items_per_page = items_per_page
       self
     end
 
     def items_per_page
-      @items_per_page or 10
+      @response.items_per_page
     end
 
     def at_page(page)
-      @page_number = (page && page < 1) ? 1 : page
+      @page_number = (page && page < 0) ? 1 : page
       self
     end
 
@@ -62,7 +61,7 @@ module CloudSearch
 
     def start
       return 0 if page_number <= 1
-      (items_per_page * page_number) - 1
+      (items_per_page * (page_number - 1)) + 1
     end
 
     def url

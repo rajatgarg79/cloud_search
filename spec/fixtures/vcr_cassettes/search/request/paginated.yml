@@ -1,0 +1,36 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=star%20wars&return-fields=actor,director,title,year,text_relevance&size=5&start=9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - ! '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 19 Oct 2012 12:47:19 GMT
+      Server:
+      - Server
+      Content-Length:
+      - '225'
+      Connection:
+      - keep-alive
+    body:
+      encoding: US-ASCII
+      string: ! '{"rank":"-text_relevance","match-expr":"(label ''star wars'')","hits":{"found":7,"start":9,"hit":[]},"info":{"rid":"d1b8bf24ec64151ef1900a937725719e149e6144919d6bc4d8af3b182ca0713fcaadee41aee65029","time-ms":3,"cpu-time-ms":0}}'
+    http_version: 
+  recorded_at: Fri, 19 Oct 2012 12:47:24 GMT
+recorded_with: VCR 2.2.4
