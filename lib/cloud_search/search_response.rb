@@ -16,7 +16,7 @@ module CloudSearch
     end
 
     def body=(body)
-      @body = body || {}
+      @body = JSON.parse(body || "{}")
       calculate_pages
       @body
     end

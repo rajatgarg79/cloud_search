@@ -5,7 +5,7 @@ describe CloudSearch::SearchResponse do
 
   context "when there are results" do
     before do
-      subject.body = YAML.load_file File.expand_path("../../fixtures/full.yml", __FILE__)
+      subject.body = File.read File.expand_path("../../fixtures/full.json", __FILE__)
     end
 
     describe "#results" do
@@ -66,7 +66,7 @@ describe CloudSearch::SearchResponse do
 
   context "when there aren't results" do
     before do
-      subject.body = {}
+      subject.body = "{}"
     end
 
     describe "#results" do
@@ -107,7 +107,9 @@ describe CloudSearch::SearchResponse do
   end
 
   context "pagination" do
-    let(:seven_hits) { YAML.load_file File.expand_path("../../fixtures/full.yml", __FILE__) }
+    let(:seven_hits) { File.read File.expand_path("../../fixtures/full.json", __FILE__) }
+    let(:seven_hits_hash) { JSON.parse(seven_hits) }
+
 
     it "returns number of pages based on hits" do
       subject.items_per_page = 8
@@ -145,75 +147,75 @@ describe CloudSearch::SearchResponse do
 
     it "returns current page based on start and items per page" do
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = nil
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = nil
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 1
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 0
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 0
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 1
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 2
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 2
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 1
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 3
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 3
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 2
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 4
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 4
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 2
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 5
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 5
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 2
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 6
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 6
+      subject.body = seven_hits_hash.to_json
       subject.current_page.should == 3
     end
 
     it "calculates offset based on current page and items_per_page" do
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = nil
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = nil
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 0
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 0
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 0
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 0
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 2
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 2
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 0
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 3
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 3
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 3
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 4
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 4
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 3
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 5
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 5
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 3
 
       subject.items_per_page = 3
-      seven_hits['hits']['start'] = 6
-      subject.body = seven_hits
+      seven_hits_hash['hits']['start'] = 6
+      subject.body = seven_hits_hash.to_json
       subject.offset.should == 6
     end
   end

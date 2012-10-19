@@ -4,15 +4,17 @@ module CloudSearch
   class Searcher
     include ConfigurationChecking
 
-    def search
-      response              = SearchResponse.new
+    def initialize
+      @response = SearchResponse.new
+    end
 
+    def search
       cloud_search_response = RestClient.get url
-      response.http_code    = cloud_search_response.code
-      response.body         = JSON.parse(cloud_search_response.body)
+      @response.http_code    = cloud_search_response.code
+      @response.body         = cloud_search_response.body
 
       response.items_per_page = items_per_page
-      response
+      @response
     end
 
     def with_query(query)
@@ -27,7 +29,8 @@ module CloudSearch
     end
 
     def query
-      URI.escape(@query || '').gsub('&', '%26')
+      return '' unless @query
+      URI.escape(@query).gsub('&', '%26')
     end
 
     def boolean_query?
