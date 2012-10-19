@@ -27,6 +27,18 @@ describe CloudSearch::Searcher do
       subject.with_query("foo")
       subject.query.should == "foo"
     end
+
+    it "returns cloud search url with foo query" do
+      subject.with_query("foo").url.should == "#{url_prefix}q=foo&size=10&start=0"
+    end
+
+    it "returns cloud search url with foo query" do
+      subject.with_query("f&oo").url.should == "#{url_prefix}q=f%26oo&size=10&start=0"
+    end
+
+    it "returns cloud search url with foo* query" do
+      subject.with_query("foo*").url.should == "#{url_prefix}q=foo*&size=10&start=0"
+    end
   end
 
   describe "#as_boolean_query" do
@@ -54,6 +66,10 @@ describe CloudSearch::Searcher do
     it "setup more thane one value" do
       subject.with_fields(:foo, :bar, :foobar)
     end
+
+    it "returns cloud search url with foo and bar fields" do
+      subject.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo,bar"
+    end
   end
 
   describe "#items_per_page" do
@@ -75,6 +91,10 @@ describe CloudSearch::Searcher do
     it "setup items per page" do
       subject.with_items_per_page(100)
       subject.items_per_page.should == 100
+    end
+
+    it "returns cloud search url with size equals 20" do
+      subject.with_items_per_page(20).url.should == "#{url_prefix}q=&size=20&start=0"
     end
   end
 
@@ -106,6 +126,10 @@ describe CloudSearch::Searcher do
       subject.at_page(-1)
       subject.page_number.should == 1
     end
+
+    it "returns cloud search url with start at 11" do
+      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=11"
+    end
   end
 
   describe "#start" do
@@ -122,30 +146,6 @@ describe CloudSearch::Searcher do
   describe "#url" do
     it "returns default cloud search url" do
       subject.url.should == "#{url_prefix}q=&size=10&start=0"
-    end
-
-    it "returns cloud search url with foo query" do
-      subject.with_query("foo").url.should == "#{url_prefix}q=foo&size=10&start=0"
-    end
-
-    it "returns cloud search url with foo query" do
-      subject.with_query("f&oo").url.should == "#{url_prefix}q=f%26oo&size=10&start=0"
-    end
-
-    it "returns cloud search url with foo* query" do
-      subject.with_query("foo*").url.should == "#{url_prefix}q=foo*&size=10&start=0"
-    end
-
-    it "returns cloud search url with size equals 20" do
-      subject.with_items_per_page(20).url.should == "#{url_prefix}q=&size=20&start=0"
-    end
-
-    it "returns cloud search url with start at 19" do
-      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=11"
-    end
-
-    it "returns cloud search url with foo and bar fields" do
-      subject.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo,bar"
     end
   end
 
