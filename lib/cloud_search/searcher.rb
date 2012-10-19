@@ -21,9 +21,8 @@ module CloudSearch
       self
     end
 
-    def with_boolean_query(query)
+    def as_boolean_query
       @boolean = true
-      with_query query
       self
     end
 

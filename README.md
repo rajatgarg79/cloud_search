@@ -51,7 +51,8 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
 ``` ruby
 searcher = CloudSearch::Searcher.new
 resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
-         .with_boolean_query("year:2000")
+         .as_boolean_query
+         .with_query("year:2000")
          .search
 ```
 

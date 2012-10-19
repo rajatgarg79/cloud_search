@@ -29,23 +29,19 @@ describe CloudSearch::Searcher do
     end
   end
 
-  describe "#with_boolean_query" do
+  describe "#as_boolean_query" do
     it "sets the query mode to 'boolean'" do
-      subject.with_boolean_query("year:2000")
+      subject.as_boolean_query
       subject.should be_boolean_query
     end
 
     it "returns the searcher instance" do
-      subject.with_boolean_query("year:2000").should == subject
-    end
-
-    it "sets the query term" do
-      subject.with_boolean_query("year:2000")
-      subject.query.should == "year:2000"
+      subject.as_boolean_query.should == subject
     end
 
     it "uses 'bq' to specify the query in the URL" do
-      subject.with_boolean_query("year:2000")
+      subject.as_boolean_query
+      subject.with_query("year:2000")
       subject.url.should == "#{url_prefix}bq=year:2000&size=10&start=0"
     end
   end
