@@ -132,6 +132,18 @@ describe CloudSearch::Searcher do
     end
   end
 
+  describe "#with_filter" do
+    it "adds the filter to the query" do
+      subject.with_query("foo").with_filter("t-product_active=1")
+      subject.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1"
+    end
+
+    it "can be used to add several filter expressions to the query" do
+      subject.with_query("foo").with_filter("t-product_active=1").with_filter("t-brand_active=1")
+      subject.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1&t-brand_active=1"
+    end
+  end
+
   describe "#start" do
     it "returns default start index number to search" do
       subject.start.should == 0

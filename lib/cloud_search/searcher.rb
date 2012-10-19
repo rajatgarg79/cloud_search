@@ -6,6 +6,7 @@ module CloudSearch
 
     def initialize
       @response = SearchResponse.new
+      @filters  = []
     end
 
     def search
@@ -18,6 +19,11 @@ module CloudSearch
 
     def with_query(query)
       @query = query
+      self
+    end
+
+    def with_filter(filter)
+      @filters << filter
       self
     end
 
@@ -69,6 +75,7 @@ module CloudSearch
       "#{CloudSearch.config.search_url}/search".tap do |u|
         u.concat("?#{query_parameter}=#{query}&size=#{items_per_page}&start=#{start}")
         u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields && @fields.any?
+        u.concat("&#{filter_expression}") if @filters.any?
       end
     end
 
@@ -76,6 +83,10 @@ module CloudSearch
 
     def query_parameter
       boolean_query? ? "bq" : "q"
+    end
+
+    def filter_expression
+      @filters.join("&")
     end
   end
 end
