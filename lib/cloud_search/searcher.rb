@@ -51,7 +51,7 @@ module CloudSearch
     end
 
     def at_page(page)
-      @page_number = (page && page < 0) ? 1 : page
+      @page_number = (page && page < 1) ? 1 : page
       self
     end
 

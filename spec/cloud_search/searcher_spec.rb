@@ -102,6 +102,14 @@ describe CloudSearch::Searcher do
       subject.at_page(2)
       subject.page_number.should == 2
     end
+
+    it "ensure page is greater than 1" do
+      subject.at_page(0)
+      subject.page_number.should == 1
+
+      subject.at_page(-1)
+      subject.page_number.should == 1
+    end
   end
 
   describe "#start" do
@@ -206,13 +214,13 @@ describe CloudSearch::Searcher do
         .should include "Star Wars: Episode II - Attack of the Clones"
       end
     end
+
     context "when paginate result" do
       before do
         subject
         .with_fields(:actor, :director, :title, :year, :text_relevance)
         .with_query("star wars")
       end
-
 
       it "returns first page" do
         VCR.use_cassette "search/request/paginated_first_page" do
