@@ -27,6 +27,7 @@ module CloudSearch
 
     alias :page_size :items_per_page
     alias :total_entries :hits
+    alias :any? :found?
 
     attr_writer :items_per_page
     attr_reader :current_page

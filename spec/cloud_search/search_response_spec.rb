@@ -39,6 +39,12 @@ describe CloudSearch::SearchResponse do
       end
     end
 
+    describe "#any?" do
+      it "returns true when has found results" do
+        subject.should be_any
+      end
+    end
+
     describe "#items_per_page" do
       it "returns items per page as default 10" do
         subject.items_per_page.should == 10
