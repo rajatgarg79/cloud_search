@@ -26,6 +26,7 @@ module CloudSearch
     end
 
     alias :page_size :items_per_page
+    alias :limit_value :items_per_page
     alias :total_entries :hits
     alias :any? :found?
 

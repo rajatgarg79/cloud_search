@@ -49,6 +49,10 @@ describe CloudSearch::SearchResponse do
       it "returns items per page as default 10" do
         subject.items_per_page.should == 10
       end
+
+      it "is an alias to limit_value" do
+        subject.limit_value.should == 10
+      end
     end
 
     describe "#page_size" do
