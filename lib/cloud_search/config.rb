@@ -11,8 +11,9 @@ module CloudSearch
     private
 
     def check_configuration_parameters
-      raise MissingConfigurationError.new("domain_id") if CloudSearch.config.domain_id.nil?
-      raise MissingConfigurationError.new("domain_name") if CloudSearch.config.domain_name.nil?
+      %w(domain_id domain_name).each do |config|
+        raise MissingConfigurationError.new(config) if CloudSearch.config[config].nil?
+      end
     end
   end
 
@@ -26,6 +27,10 @@ module CloudSearch
     attr_accessor :document_url
     attr_accessor :region
     attr_accessor :search_url
+
+    def [](config)
+      self.__send__(config)
+    end
 
     def api_version
       @api_version ||= "2011-02-01"
