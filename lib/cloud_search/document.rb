@@ -7,7 +7,6 @@ module CloudSearch
 
     def initialize(attributes = {})
       attributes.each_pair { |key, value| self.__send__("#{key}=", value) }
-      @errors = {}
     end
 
     def id=(_id)
