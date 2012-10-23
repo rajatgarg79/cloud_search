@@ -11,8 +11,8 @@ module CloudSearch
 
     def search
       cloud_search_response = RestClient.get url
-      @response.http_code    = cloud_search_response.code
-      @response.body         = cloud_search_response.body
+      @response.http_code   = cloud_search_response.code
+      @response.body        = cloud_search_response.body
 
       @response
     end

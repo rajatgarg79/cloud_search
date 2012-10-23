@@ -36,7 +36,7 @@ module CloudSearch
     end
 
     def document_url
-      @document_url ||= "http://doc-#{self.domain_name}-#{self.domain_id}.#{self.region}.cloudsearch.amazonaws.com/#{self.api_version}"
+      @document_url ||= "http://doc-#{base_path}"
     end
 
     def region
@@ -44,7 +44,13 @@ module CloudSearch
     end
 
     def search_url
-      @search_url ||= "http://search-#{self.domain_name}-#{self.domain_id}.#{self.region}.cloudsearch.amazonaws.com/#{self.api_version}"
+      @search_url ||= "http://search-#{base_path}"
+    end
+
+    private
+
+    def base_path
+      "#{self.domain_name}-#{self.domain_id}.#{self.region}.cloudsearch.amazonaws.com/#{self.api_version}"
     end
   end
 end
