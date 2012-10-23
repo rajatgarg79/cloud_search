@@ -1,9 +1,7 @@
 module CloudSearch
   class SearchResponse
     attr_writer   :items_per_page
-    attr_reader   :current_page
-    attr_reader   :total_pages
-    attr_reader   :body
+    attr_reader   :current_page, :total_pages, :body
     attr_accessor :http_code
 
     def results
@@ -26,6 +24,10 @@ module CloudSearch
 
     def items_per_page
       @items_per_page || 10
+    end
+
+    def has_pagination?
+      hits > items_per_page
     end
 
     def offset

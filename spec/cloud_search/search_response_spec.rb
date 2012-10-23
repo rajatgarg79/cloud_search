@@ -33,6 +33,23 @@ describe CloudSearch::SearchResponse do
       end
     end
 
+    describe "#has_pagination?" do
+      it "when hits is greater than items_per_page returns true" do
+        subject.items_per_page = 8
+        subject.has_pagination?.should == false
+      end
+
+      it "when hits is less than items_per_page returns false" do
+        subject.items_per_page = 6
+        subject.has_pagination?.should == true
+      end
+
+      it "when hits is equal to items_per_page returns false" do
+        subject.items_per_page = 7
+        subject.has_pagination?.should == false
+      end
+    end
+
     describe "#found?" do
       it "returns true when found documents" do
         subject.should be_found
