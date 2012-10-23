@@ -28,7 +28,7 @@ module CloudSearch
     private
 
     def headers
-      {"Content-Type" => "application/json"}
+      {"Content-Type" => "application/json", "Accept" => "application/json" }
     end
 
     def documents_json

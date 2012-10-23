@@ -56,6 +56,8 @@ describe CloudSearch::Indexer do
 
       let(:type) { "add" }
       let(:version) { 1 }
+      let(:url) { "#{CloudSearch.config.document_url}/documents/batch" }
+      let(:json) { [document].to_json }
 
       it "succeeds" do
         indexer << document
@@ -64,6 +66,12 @@ describe CloudSearch::Indexer do
         expect(resp["adds"]).to eq(1)
         expect(resp["deletes"]).to eq(0)
         expect(message).to match(/^200/)
+      end
+
+      it "sends http headers with json format info" do
+        indexer << document
+        RestClient.should_receive(:post).with(url, kind_of(String), {"Content-Type" => "application/json", "Accept" => "application/json" }).and_return(stub(:code => 1, :length => 10, :body => '{}'))
+        indexer.index
       end
 
       context "when the domain id was not configured" do
