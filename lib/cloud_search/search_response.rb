@@ -1,5 +1,8 @@
 module CloudSearch
   class SearchResponse
+    attr_writer   :items_per_page
+    attr_reader   :current_page
+    attr_reader   :total_pages
     attr_reader   :body
     attr_accessor :http_code
 
@@ -25,19 +28,15 @@ module CloudSearch
       @items_per_page || 10
     end
 
-    alias :page_size :items_per_page
-    alias :limit_value :items_per_page
-    alias :total_entries :hits
-    alias :any? :found?
-
-    attr_writer :items_per_page
-    attr_reader :current_page
-    attr_reader :total_pages
-
     def offset
       return 0 unless found?
       (@current_page - 1) * items_per_page
     end
+
+    alias :page_size :items_per_page
+    alias :limit_value :items_per_page
+    alias :total_entries :hits
+    alias :any? :found?
 
     private
 
