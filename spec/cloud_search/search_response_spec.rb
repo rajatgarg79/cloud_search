@@ -202,42 +202,5 @@ describe CloudSearch::SearchResponse do
       subject.body = seven_hits_hash.to_json
       subject.current_page.should == 3
     end
-
-    it "calculates offset based on current page and items_per_page" do
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = nil
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 0
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 0
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 0
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 2
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 0
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 3
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 3
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 4
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 3
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 5
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 3
-
-      subject.items_per_page = 3
-      seven_hits_hash['hits']['start'] = 6
-      subject.body = seven_hits_hash.to_json
-      subject.offset.should == 6
-    end
   end
 end

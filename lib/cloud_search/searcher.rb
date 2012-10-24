@@ -66,7 +66,7 @@ module CloudSearch
 
     def start
       return 0 if page_number <= 1
-      (items_per_page * (page_number - 1)) + 1
+      (items_per_page * (page_number - 1))
     end
 
     def url

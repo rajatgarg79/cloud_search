@@ -127,8 +127,8 @@ describe CloudSearch::Searcher do
       subject.page_number.should == 1
     end
 
-    it "returns cloud search url with start at 11" do
-      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=11"
+    it "returns cloud search url with start at 10" do
+      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=10"
     end
   end
 
@@ -149,9 +149,9 @@ describe CloudSearch::Searcher do
       subject.start.should == 0
     end
 
-    it "returns start index 19 for page 2" do
+    it "returns start index 10 for page 2" do
       subject.at_page(2)
-      subject.start.should == 11
+      subject.start.should == 10
     end
   end
 

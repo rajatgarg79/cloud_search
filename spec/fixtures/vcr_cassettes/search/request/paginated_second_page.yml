@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=star%20wars&return-fields=actor,director,title,year,text_relevance&size=4&start=5
+    uri: http://search-imdb-movies-pl6u4t3elu7dhsbwaqbsy3y6be.us-east-1.cloudsearch.amazonaws.com/2011-02-01/search?q=star%20wars&return-fields=actor,director,title,year,text_relevance&size=4&start=4
     body:
       encoding: US-ASCII
       string: ''
@@ -16,33 +16,66 @@ http_interactions:
   response:
     status:
       code: 200
-      message: OK
+      message: !binary |-
+        T0s=
     headers:
-      Content-Type:
-      - application/json
-      Date:
-      - Fri, 19 Oct 2012 12:54:26 GMT
-      Server:
-      - Server
-      Content-Length:
-      - '1235'
-      Connection:
-      - keep-alive
+      !binary "Q29udGVudC1UeXBl":
+      - !binary |-
+        YXBwbGljYXRpb24vanNvbg==
+      !binary "RGF0ZQ==":
+      - !binary |-
+        V2VkLCAyNCBPY3QgMjAxMiAxMTo1NTo0NCBHTVQ=
+      !binary "U2VydmVy":
+      - !binary |-
+        U2VydmVy
+      !binary "Q29udGVudC1MZW5ndGg=":
+      - !binary |-
+        MTczNQ==
+      !binary "Q29ubmVjdGlvbg==":
+      - !binary |-
+        a2VlcC1hbGl2ZQ==
     body:
-      encoding: US-ASCII
-      string: ! '{"rank":"-text_relevance","match-expr":"(label ''star wars'')","hits":{"found":7,"start":5,"hit":[{"id":"tt0086190","data":{"actor":["Altman,
-        John","Bonehill, Richard","Brooke, Paul","Burtt, Ben","Daniels, Anthony","Diamond,
-        Peter","Fisher, Carrie","Ford, Harrison","Hamill, Mark","Jones, James Earl","Marquand,
-        Richard","Mayhew, Peter","McDiarmid, Ian","McRae, Hilton","Oz, Frank","Roy,
-        Deep","Shaw, Sebastian","Ward, Larry","Welsh, Pat","Williams, Billy Dee"],"director":["Marquand,
-        Richard"],"text_relevance":["268"],"title":["Star Wars: Episode VI - Return
-        of the Jedi"],"year":["1983"]}},{"id":"tt0121766","data":{"actor":["Bai, Ling","Bryant,
-        Gene","Castle-Hughes, Keisha","Christensen, Hayden","Cooke, Ben","Daniels,
-        Anthony","Jackson, Samuel L.","Jones, James Earl","Knoll, John","Lee, Christopher","Lucas,
-        George","McDiarmid, Ian","McGregor, Ewan","Oz, Frank","Portman, Natalie","Smits,
-        Jimmy","Spence, Paul","Steen, Suzie","Yamaguchi, Masa","de Souza Correa, Caroline"],"director":["Lucas,
-        George"],"text_relevance":["266"],"title":["Star Wars: Episode III - Revenge
-        of the Sith"],"year":["2005"]}}]},"info":{"rid":"d1b8bf24ec64151ef1900a937725719e16ef82997926220f8d083b43777b29a1e52ffa47d7196049","time-ms":3,"cpu-time-ms":0}}'
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyYW5rIjoiLXRleHRfcmVsZXZhbmNlIiwibWF0Y2gtZXhwciI6IihsYWJl
+        bCAnc3RhciB3YXJzJykiLCJoaXRzIjp7ImZvdW5kIjo3LCJzdGFydCI6NCwi
+        aGl0IjpbeyJpZCI6InR0MDEyMDkxNSIsImRhdGEiOnsiYWN0b3IiOlsiQXJt
+        aXRhZ2UsIFJpY2hhcmQiLCJBdWd1c3QsIFBlcm5pbGxhIiwiQmVzdCwgQWht
+        ZWQiLCJCdXJ0dCwgQmVuIiwiQ2hpYW5nLCBEb3VnIiwiQ29wcG9sYSwgUm9t
+        YW4iLCJEYW5pZWxzLCBBbnRob255IiwiRm9yZCBEYXZpZXMsIE9saXZlciIs
+        IkhhbWlsbCwgTmF0aGFuIiwiS25vbGwsIEpvaG4iLCJMYXUsIEthbWF5Iiwi
+        TGxveWQsIEpha2UiLCJNY0NhbGx1bSwgUmljayIsIk1jRGlhcm1pZCwgSWFu
+        IiwiTWNHcmVnb3IsIEV3YW4iLCJNZW5lemVzLCBKb8OjbyBDb3N0YSIsIk5l
+        ZXNvbiwgTGlhbSIsIlBvcnRtYW4sIE5hdGFsaWUiLCJRdWFyc2hpZSwgSHVn
+        aCIsIldvb2QsIE1hdHRoZXciXSwiZGlyZWN0b3IiOlsiTHVjYXMsIEdlb3Jn
+        ZSJdLCJ0ZXh0X3JlbGV2YW5jZSI6WyIyNjgiXSwidGl0bGUiOlsiU3RhciBX
+        YXJzOiBFcGlzb2RlIEkgLSBUaGUgUGhhbnRvbSBNZW5hY2UiXSwieWVhciI6
+        WyIxOTk5Il19fSx7ImlkIjoidHQwMDg2MTkwIiwiZGF0YSI6eyJhY3RvciI6
+        WyJBbHRtYW4sIEpvaG4iLCJCb25laGlsbCwgUmljaGFyZCIsIkJyb29rZSwg
+        UGF1bCIsIkJ1cnR0LCBCZW4iLCJEYW5pZWxzLCBBbnRob255IiwiRGlhbW9u
+        ZCwgUGV0ZXIiLCJGaXNoZXIsIENhcnJpZSIsIkZvcmQsIEhhcnJpc29uIiwi
+        SGFtaWxsLCBNYXJrIiwiSm9uZXMsIEphbWVzIEVhcmwiLCJNYXJxdWFuZCwg
+        UmljaGFyZCIsIk1heWhldywgUGV0ZXIiLCJNY0RpYXJtaWQsIElhbiIsIk1j
+        UmFlLCBIaWx0b24iLCJPeiwgRnJhbmsiLCJSb3ksIERlZXAiLCJTaGF3LCBT
+        ZWJhc3RpYW4iLCJXYXJkLCBMYXJyeSIsIldlbHNoLCBQYXQiLCJXaWxsaWFt
+        cywgQmlsbHkgRGVlIl0sImRpcmVjdG9yIjpbIk1hcnF1YW5kLCBSaWNoYXJk
+        Il0sInRleHRfcmVsZXZhbmNlIjpbIjI2OCJdLCJ0aXRsZSI6WyJTdGFyIFdh
+        cnM6IEVwaXNvZGUgVkkgLSBSZXR1cm4gb2YgdGhlIEplZGkiXSwieWVhciI6
+        WyIxOTgzIl19fSx7ImlkIjoidHQwMTIxNzY2IiwiZGF0YSI6eyJhY3RvciI6
+        WyJCYWksIExpbmciLCJCcnlhbnQsIEdlbmUiLCJDYXN0bGUtSHVnaGVzLCBL
+        ZWlzaGEiLCJDaHJpc3RlbnNlbiwgSGF5ZGVuIiwiQ29va2UsIEJlbiIsIkRh
+        bmllbHMsIEFudGhvbnkiLCJKYWNrc29uLCBTYW11ZWwgTC4iLCJKb25lcywg
+        SmFtZXMgRWFybCIsIktub2xsLCBKb2huIiwiTGVlLCBDaHJpc3RvcGhlciIs
+        Ikx1Y2FzLCBHZW9yZ2UiLCJNY0RpYXJtaWQsIElhbiIsIk1jR3JlZ29yLCBF
+        d2FuIiwiT3osIEZyYW5rIiwiUG9ydG1hbiwgTmF0YWxpZSIsIlNtaXRzLCBK
+        aW1teSIsIlNwZW5jZSwgUGF1bCIsIlN0ZWVuLCBTdXppZSIsIllhbWFndWNo
+        aSwgTWFzYSIsImRlIFNvdXphIENvcnJlYSwgQ2Fyb2xpbmUiXSwiZGlyZWN0
+        b3IiOlsiTHVjYXMsIEdlb3JnZSJdLCJ0ZXh0X3JlbGV2YW5jZSI6WyIyNjYi
+        XSwidGl0bGUiOlsiU3RhciBXYXJzOiBFcGlzb2RlIElJSSAtIFJldmVuZ2Ug
+        b2YgdGhlIFNpdGgiXSwieWVhciI6WyIyMDA1Il19fV19LCJpbmZvIjp7InJp
+        ZCI6ImQxYjhiZjI0ZWM2NDE1MWVmMTkwMGE5Mzc3MjU3MTllYmY5YzcyMDBk
+        MTFiOTUyNzk1OGQxZGI4NjE0MDgxZGY5ODA2OGRjYjgyYWJkNjE2IiwidGlt
+        ZS1tcyI6MywiY3B1LXRpbWUtbXMiOjB9fQ==
     http_version: 
-  recorded_at: Fri, 19 Oct 2012 12:54:31 GMT
+  recorded_at: Wed, 24 Oct 2012 11:55:46 GMT
 recorded_with: VCR 2.2.4
