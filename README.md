@@ -56,6 +56,16 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
          .search
 ```
 
+### You can use weighted fields in your search
+``` ruby
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+         .with_weights(:title => 3, :actor => 2, :default_weight => 1)
+         .as_boolean_query
+         .with_query("year:2000")
+         .search
+```
+
 ## Results
 ``` ruby
 resp.results.each do |result|
