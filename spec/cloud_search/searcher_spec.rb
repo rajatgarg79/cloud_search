@@ -41,6 +41,16 @@ describe CloudSearch::Searcher do
     end
   end
 
+  describe "#ranked_by" do
+    it "returns the instance" do
+      subject.ranked_by("foobar").should == subject
+    end
+
+    it "sets the rank expression in the searcher object" do
+      subject.ranked_by("foobar").url.should == "#{url_prefix}q=&size=10&start=0&rank=foobar"
+    end
+  end
+
   describe "#with_weights" do
     before do
       subject.with_query("star").with_weights(:title => 3, :description => 1, :default_weight => 0.5)

@@ -39,6 +39,11 @@ module CloudSearch
       self
     end
 
+    def ranked_by(rank_expression)
+      @rank = rank_expression
+      self
+    end
+
     def query
       return '' unless @query
       URI.escape(@query).gsub('&', '%26')
@@ -84,6 +89,7 @@ module CloudSearch
         u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields && @fields.any?
         u.concat("&#{filter_expression}") if @filters.any?
         u.concat("&#{weighted_fields_expression}") if @weights and !@weights.empty?
+        u.concat("&rank=#{@rank}") if @rank
       end
     end
 
