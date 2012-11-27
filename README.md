@@ -66,6 +66,22 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
          .search
 ```
 
+### You can sort the result using a rank expression (previously created on your CloudSearch domain)
+``` ruby
+searcher = CloudSearch::Searcher.new
+resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+           .with_query("matrix")
+           .ranked_with("my_rank_expression")
+```
+
+If you want to rank using descending order, just prepend the expression name with a '-' sign:
+
+``` ruby
+resp = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
+       .with_query("matrix")
+       .ranked_with("-my_rank_expression")
+```
+
 ## Results
 ``` ruby
 resp.results.each do |result|
