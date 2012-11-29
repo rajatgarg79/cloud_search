@@ -1,6 +1,6 @@
 module CloudSearch
   class Indexer
-    include ConfigurationChecking
+    include ::CloudSearch::ConfigurationChecking
 
     def initialize
       @documents = []

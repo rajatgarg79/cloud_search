@@ -2,7 +2,7 @@ require 'uri'
 
 module CloudSearch
   class Searcher
-    include ConfigurationChecking
+    include ::CloudSearch::ConfigurationChecking
 
     attr_reader :weights
 
