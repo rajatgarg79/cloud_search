@@ -4,12 +4,13 @@ require "json"
 require "cloud_search/version"
 
 module CloudSearch
-  autoload :Config,          "cloud_search/config"
-  autoload :Searcher,        "cloud_search/searcher"
-  autoload :SearchResponse,  "cloud_search/search_response"
-  autoload :Indexer,         "cloud_search/indexer"
-  autoload :Document,        "cloud_search/document"
-  autoload :InvalidDocument, "cloud_search/invalid_document"
+  autoload :Config,                "cloud_search/config"
+  autoload :ConfigurationChecking, "cloud_search/config"
+  autoload :Searcher,              "cloud_search/searcher"
+  autoload :SearchResponse,        "cloud_search/search_response"
+  autoload :Indexer,               "cloud_search/indexer"
+  autoload :Document,              "cloud_search/document"
+  autoload :InvalidDocument,       "cloud_search/invalid_document"
 
   def self.config
     Config.instance
