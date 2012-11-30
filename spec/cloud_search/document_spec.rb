@@ -142,54 +142,74 @@ describe CloudSearch::Document do
   end
 
   context "lang validation" do
-    it "is invalid if lang is nil" do
-      document = described_class.new :lang => nil
-      document.valid?
-      expect(document.errors[:lang]).to eql(["can't be blank"])
+    context "when type is 'add'" do
+      it "is invalid if lang is nil" do
+        document = described_class.new :lang => nil, :type => "add"
+        document.valid?
+        expect(document.errors[:lang]).to eql(["can't be blank"])
+      end
+
+      it "is invalid if lang contains digits" do
+        document = described_class.new :lang => "a1", :type => "add"
+        document.valid?
+        expect(document.errors[:lang]).to eql(["is invalid"])
+      end
+
+      it "is invalid if lang contains more than 2 characters" do
+        document = described_class.new :lang => "abc", :type => "add"
+        document.valid?
+        expect(document.errors[:lang]).to eql(["is invalid"])
+      end
+
+      it "is invalid if lang contains upper case characters" do
+        document = described_class.new :lang => "Ab", :type => "add"
+        document.valid?
+        expect(document.errors[:lang]).to eql(["is invalid"])
+      end
+
+      it "is valid if lang contains 2 lower case characters" do
+        document = described_class.new :lang => "en", :type => "add"
+        document.valid?
+        expect(document.errors[:lang]).to be_nil
+      end
     end
 
-    it "is invalid if lang contains digits" do
-      document = described_class.new :lang => "a1"
-      document.valid?
-      expect(document.errors[:lang]).to eql(["is invalid"])
-    end
-
-    it "is invalid if lang contains more than 2 characters" do
-      document = described_class.new :lang => "abc"
-      document.valid?
-      expect(document.errors[:lang]).to eql(["is invalid"])
-    end
-
-    it "is invalid if lang contains upper case characters" do
-      document = described_class.new :lang => "Ab"
-      document.valid?
-      expect(document.errors[:lang]).to eql(["is invalid"])
-    end
-
-    it "is valid if lang contains 2 lower case characters" do
-      document = described_class.new :lang => "en"
-      document.valid?
-      expect(document.errors[:lang]).to be_nil
+    context "when type is 'delete'" do
+      it "is optional" do
+        document = described_class.new :type => "delete"
+        document.valid?
+        expect(document.errors[:lang]).to be_nil
+      end
     end
   end
 
   context "fields validation" do
-    it "is invalid if fields is nil" do
-      document = described_class.new :fields => nil
-      document.valid?
-      expect(document.errors[:fields]).to eql(["can't be empty"])
+    context "when type is 'add'" do
+      it "is invalid if fields is nil" do
+        document = described_class.new :fields => nil, :type => "add"
+        document.valid?
+        expect(document.errors[:fields]).to eql(["can't be empty"])
+      end
+
+      it "is invalid if fields is not a hash" do
+        document = described_class.new :fields => [], :type => "add"
+        document.valid?
+        expect(document.errors[:fields]).to eql(["must be an instance of Hash"])
+      end
+
+      it "is valid with a Hash" do
+        document = described_class.new :fields => {}, :type => "add"
+        document.valid?
+        expect(document.errors[:fields]).to be_nil
+      end
     end
 
-    it "is invalid if fields is not a hash" do
-      document = described_class.new :fields => []
-      document.valid?
-      expect(document.errors[:fields]).to eql(["must be an instance of Hash"])
-    end
-
-    it "is valid with a Hash" do
-      document = described_class.new :fields => {}
-      document.valid?
-      expect(document.errors[:fields]).to be_nil
+    context "when type is 'delete'" do
+      it "is optional" do
+        document = described_class.new :type => "delete"
+        document.valid?
+        expect(document.errors[:fields]).to be_nil
+      end
     end
   end
 

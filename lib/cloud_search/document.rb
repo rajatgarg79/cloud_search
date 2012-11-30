@@ -26,8 +26,10 @@ module CloudSearch
       run_id_validations
       run_version_validations
       run_type_validations
-      run_lang_validations
-      run_fields_validations
+      if type == "add"
+        run_lang_validations
+        run_fields_validations
+      end
       errors.empty?
     end
 
