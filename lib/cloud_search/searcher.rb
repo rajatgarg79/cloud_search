@@ -83,7 +83,6 @@ module CloudSearch
         u.concat("?#{query_parameter}=#{query}&size=#{items_per_page}&start=#{start}")
         u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields && @fields.any?
         u.concat("&#{filter_expression}") if @filters.any?
-        u.concat("&#{weighted_fields_expression}") if @weights and !@weights.empty?
         u.concat("&rank=#{@rank}") if @rank
       end
     end
@@ -96,12 +95,6 @@ module CloudSearch
 
     def filter_expression
       @filters.join("&")
-    end
-
-    def weighted_fields_expression
-      weights_json = JSON.unparse(@weights)
-      expression = "cs.text_relevance(#{weights_json})"
-      URI.escape expression
     end
   end
 end
