@@ -24,11 +24,6 @@ module CloudSearch
       self
     end
 
-    def with_weights(weights)
-      @weights = weights
-      self
-    end
-
     def with_filter(filter)
       @filters << filter
       self

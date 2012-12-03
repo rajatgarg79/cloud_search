@@ -51,24 +51,6 @@ describe CloudSearch::Searcher do
     end
   end
 
-  describe "#with_weights" do
-    before do
-      subject.with_query("star").with_weights(:title => 3, :description => 1, :default_weight => 0.5)
-    end
-
-    it "adds the informed weighted fields to the searcher object" do
-      subject.weights.should == {:title => 3, :description => 1, :default_weight => 0.5}
-    end
-
-    it "adds the weighted fields to the search url" do
-      subject.url.should == "#{url_prefix}q=star&size=10&start=0&cs.text_relevance(%7B%22title%22:3,%22description%22:1,%22default_weight%22:0.5%7D)"
-    end
-
-    it "returns the searcher object" do
-      subject.with_weights(:title => 3).should == subject
-    end
-  end
-
   describe "#as_boolean_query" do
     it "sets the query mode to 'boolean'" do
       subject.as_boolean_query
