@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe CloudSearch::Searcher do
-  subject { described_class.new }
+  subject(:searcher) { described_class.new }
 
   let(:url_prefix) do
     "#{CloudSearch.config.search_url}/search?"
@@ -9,171 +9,171 @@ describe CloudSearch::Searcher do
 
   describe "#query" do
     it "returns default query" do
-      subject.query.should == ""
+      searcher.query.should == ""
     end
 
     it "returns default query when it's tried to set nil value" do
-      subject.with_query(nil)
-      subject.query.should == ""
+      searcher.with_query(nil)
+      searcher.query.should == ""
     end
   end
 
   describe "#with_query" do
     it "returns #{described_class} instance" do
-      subject.with_query("foo").should == subject
+      searcher.with_query("foo").should == searcher
     end
 
     it "setup query" do
-      subject.with_query("foo")
-      subject.query.should == "foo"
+      searcher.with_query("foo")
+      searcher.query.should == "foo"
     end
 
     it "returns cloud search url with foo query" do
-      subject.with_query("foo").url.should == "#{url_prefix}q=foo&size=10&start=0"
+      searcher.with_query("foo").url.should == "#{url_prefix}q=foo&size=10&start=0"
     end
 
     it "returns cloud search url with foo query" do
-      subject.with_query("f&oo").url.should == "#{url_prefix}q=f%26oo&size=10&start=0"
+      searcher.with_query("f&oo").url.should == "#{url_prefix}q=f%26oo&size=10&start=0"
     end
 
     it "returns cloud search url with foo* query" do
-      subject.with_query("foo*").url.should == "#{url_prefix}q=foo*&size=10&start=0"
+      searcher.with_query("foo*").url.should == "#{url_prefix}q=foo*&size=10&start=0"
     end
   end
 
   describe "#ranked_by" do
     it "returns the instance" do
-      subject.ranked_by("foobar").should == subject
+      searcher.ranked_by("foobar").should == searcher
     end
 
     it "sets the rank expression in the searcher object" do
-      subject.ranked_by("foobar").url.should == "#{url_prefix}q=&size=10&start=0&rank=foobar"
+      searcher.ranked_by("foobar").url.should == "#{url_prefix}q=&size=10&start=0&rank=foobar"
     end
   end
 
   describe "#as_boolean_query" do
     it "sets the query mode to 'boolean'" do
-      subject.as_boolean_query
-      subject.should be_boolean_query
+      searcher.as_boolean_query
+      searcher.should be_boolean_query
     end
 
     it "returns the searcher instance" do
-      subject.as_boolean_query.should == subject
+      searcher.as_boolean_query.should == searcher
     end
 
     it "uses 'bq' to specify the query in the URL" do
-      subject.as_boolean_query
-      subject.with_query("year:2000")
-      subject.url.should == "#{url_prefix}bq=year:2000&size=10&start=0"
+      searcher.as_boolean_query
+      searcher.with_query("year:2000")
+      searcher.url.should == "#{url_prefix}bq=year:2000&size=10&start=0"
     end
   end
 
   describe "#with_fields" do
     it "returns #{described_class} instance" do
-      subject.with_fields(:foo).should == subject
+      searcher.with_fields(:foo).should == searcher
     end
 
     it "setup more thane one value" do
-      subject.with_fields(:foo, :bar, :foobar)
+      searcher.with_fields(:foo, :bar, :foobar)
     end
 
     it "returns cloud search url with foo and bar fields" do
-      subject.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo,bar"
+      searcher.with_fields(:foo, :bar).url.should == "#{url_prefix}q=&size=10&start=0&return-fields=foo,bar"
     end
   end
 
   describe "#items_per_page" do
     it "returns default items_per_page" do
-      subject.items_per_page.should == 10
+      searcher.items_per_page.should == 10
     end
 
     it "returns default items per page when it's tried to set nil value" do
-      subject.with_items_per_page(nil)
-      subject.items_per_page.should == 10
+      searcher.with_items_per_page(nil)
+      searcher.items_per_page.should == 10
     end
   end
 
   describe "#with_items_per_page" do
     it "returns #{described_class} instance" do
-      subject.with_items_per_page(nil).should == subject
+      searcher.with_items_per_page(nil).should == searcher
     end
 
     it "setup items per page" do
-      subject.with_items_per_page(100)
-      subject.items_per_page.should == 100
+      searcher.with_items_per_page(100)
+      searcher.items_per_page.should == 100
     end
 
     it "returns cloud search url with size equals 20" do
-      subject.with_items_per_page(20).url.should == "#{url_prefix}q=&size=20&start=0"
+      searcher.with_items_per_page(20).url.should == "#{url_prefix}q=&size=20&start=0"
     end
   end
 
   describe "#page_number" do
     it "returns default page number" do
-      subject.page_number.should == 1
+      searcher.page_number.should == 1
     end
 
     it "returns default page number when it's tried to set nil value" do
-      subject.at_page(nil)
-      subject.page_number.should == 1
+      searcher.at_page(nil)
+      searcher.page_number.should == 1
     end
   end
 
   describe "#at_page" do
     it "returns #{described_class} instance" do
-      subject.at_page(1).should == subject
+      searcher.at_page(1).should == searcher
     end
 
     it "setup page number" do
-      subject.at_page(2)
-      subject.page_number.should == 2
+      searcher.at_page(2)
+      searcher.page_number.should == 2
     end
 
     it "ensure page is greater than 1" do
-      subject.at_page(0)
-      subject.page_number.should == 1
+      searcher.at_page(0)
+      searcher.page_number.should == 1
 
-      subject.at_page(-1)
-      subject.page_number.should == 1
+      searcher.at_page(-1)
+      searcher.page_number.should == 1
     end
 
     it "returns cloud search url with start at 10" do
-      subject.at_page(2).url.should == "#{url_prefix}q=&size=10&start=10"
+      searcher.at_page(2).url.should == "#{url_prefix}q=&size=10&start=10"
     end
   end
 
   describe "#with_filter" do
     it "adds the filter to the query" do
-      subject.with_query("foo").with_filter("t-product_active=1")
-      subject.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1"
+      searcher.with_query("foo").with_filter("t-product_active=1")
+      searcher.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1"
     end
 
     it "can be used to add several filter expressions to the query" do
-      subject.with_query("foo").with_filter("t-product_active=1").with_filter("t-brand_active=1")
-      subject.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1&t-brand_active=1"
+      searcher.with_query("foo").with_filter("t-product_active=1").with_filter("t-brand_active=1")
+      searcher.url.should == "#{url_prefix}q=foo&size=10&start=0&t-product_active=1&t-brand_active=1"
     end
   end
 
   describe "#start" do
     it "returns default start index number to search" do
-      subject.start.should == 0
+      searcher.start.should == 0
     end
 
     it "returns start index 10 for page 2" do
-      subject.at_page(2)
-      subject.start.should == 10
+      searcher.at_page(2)
+      searcher.start.should == 10
     end
   end
 
   describe "#url" do
     it "returns default cloud search url" do
-      subject.url.should == "#{url_prefix}q=&size=10&start=0"
+      searcher.url.should == "#{url_prefix}q=&size=10&start=0"
     end
   end
 
   describe "#search" do
     before do
-      subject
+      searcher
       .with_fields(:actor, :director, :title, :year, :text_relevance)
       .with_query("star wars")
     end
@@ -188,7 +188,7 @@ describe CloudSearch::Searcher do
 
       it "raises an error" do
         expect {
-          subject.search
+          searcher.search
         }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_id' configuration parameter")
       end
     end
@@ -203,7 +203,7 @@ describe CloudSearch::Searcher do
 
       it "raises an error" do
         expect {
-          subject.search
+          searcher.search
         }.to raise_error(CloudSearch::MissingConfigurationError, "Missing 'domain_name' configuration parameter")
       end
     end
@@ -212,22 +212,22 @@ describe CloudSearch::Searcher do
       around { |example| VCR.use_cassette "search/request/full", &example }
 
       it "returns http 200 code" do
-        resp = subject.search
+        resp = searcher.search
         resp.http_code.should == 200
       end
 
       it "has found results" do
-        resp = subject.search
+        resp = searcher.search
         resp.should be_found
       end
 
       it "returns number of hits" do
-        resp = subject.search
+        resp = searcher.search
         expect(resp.hits).to be == 7
       end
 
       it "returns Episode II" do
-        resp = subject.search
+        resp = searcher.search
         resp.results.map{ |item| item['data']['title'] }.flatten
         .should include "Star Wars: Episode II - Attack of the Clones"
       end
@@ -235,16 +235,16 @@ describe CloudSearch::Searcher do
 
     context "when paginate result" do
       before do
-        subject
+        searcher
         .with_fields(:actor, :director, :title, :year, :text_relevance)
         .with_query("star wars")
       end
 
       it "returns first page" do
         VCR.use_cassette "search/request/paginated_first_page" do
-          subject.with_items_per_page(4)
-          subject.at_page(1)
-          resp = subject.search
+          searcher.with_items_per_page(4)
+          searcher.at_page(1)
+          resp = searcher.search
           resp.results.map{ |item| item['data']['title'] }.flatten
           .should include "Star Wars: Episode II - Attack of the Clones"
         end
@@ -252,9 +252,9 @@ describe CloudSearch::Searcher do
 
       it "returns second page" do
         VCR.use_cassette "search/request/paginated_second_page" do
-          subject.with_items_per_page(4)
-          subject.at_page(2)
-          resp = subject.search
+          searcher.with_items_per_page(4)
+          searcher.at_page(2)
+          resp = searcher.search
           resp.results.map{ |item| item['data']['title'] }.flatten
           .should include "Star Wars: Episode III - Revenge of the Sith"
         end
