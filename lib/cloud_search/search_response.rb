@@ -1,8 +1,15 @@
 module CloudSearch
   class SearchResponse
     attr_writer   :items_per_page
-    attr_reader   :current_page, :total_pages, :body
+    attr_reader   :current_page, :total_pages, :body, :facets
     attr_accessor :http_code
+
+    def body=(body)
+      @body = JSON.parse(body || "{}")
+      calculate_pages
+      build_facets
+      @body
+    end
 
     def results
       _hits["hit"] || []
@@ -14,12 +21,6 @@ module CloudSearch
 
     def found?
       hits > 0
-    end
-
-    def body=(body)
-      @body = JSON.parse(body || "{}")
-      calculate_pages
-      @body
     end
 
     def items_per_page
@@ -50,6 +51,22 @@ module CloudSearch
       start = _hits["start"] || 0
       @current_page = (start / items_per_page) + 1
       @current_page = @total_pages if @current_page > @total_pages
+    end
+
+    def build_facets
+      @facets = {}
+      return unless body['facets']
+
+      body['facets'].each do |facet, result|
+        if result['constraints']
+          @facets[facet] = {}
+          result['constraints'].each do |item|
+            @facets[facet][item['value']] = item['count']
+          end
+        else
+          @facets[facet] = result
+        end
+      end
     end
 
     def _hits

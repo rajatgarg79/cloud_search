@@ -83,6 +83,20 @@ describe CloudSearch::SearchResponse do
         subject.offset.should == 0
       end
     end
+
+    describe "#facets" do
+      it "returns all facets" do
+        subject.facets.keys.should == ['genre', 'year']
+      end
+
+      it "returns facets details" do
+        subject.facets['genre'].should == { "Action" => 7,
+          "Adventure" => 7, "Sci-Fi" => 7, "Fantasy" => 5,
+          "Animation" => 1, "Family" => 1, "Thriller" => 1 }
+
+        subject.facets['year'].should == {"min"=>1977, "max"=>2008}
+      end
+    end
   end
 
   context "when there aren't results" do

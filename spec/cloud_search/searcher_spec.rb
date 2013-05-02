@@ -243,6 +243,23 @@ describe CloudSearch::Searcher do
         resp.results.map{ |item| item['data']['title'] }.flatten
         .should include "Star Wars: Episode II - Attack of the Clones"
       end
+
+      it "returns facets" do
+        VCR.use_cassette "search/request/facets" do
+          searcher.with_facets(:genre, :year)
+          resp = searcher.search
+          resp.facets.should == {"genre"=>{"Action"=>7, "Adventure"=>7, "Sci-Fi"=>7, "Fantasy"=>5, "Animation"=>1, "Family"=>1, "Thriller"=>1}, "year"=>{"min"=>1977, "max"=>2008}}
+        end
+      end
+
+      it "constrains facets" do
+        VCR.use_cassette "search/request/facets_with_constraints" do
+          searcher.with_facets(:genre, :year)
+          searcher.with_facet_constraints(:genre => "Sci-Fi")
+          resp = searcher.search
+          resp.facets.should == {"genre"=>{"Sci-Fi"=>7}, "year"=>{"min"=>1977, "max"=>2008}}
+        end
+      end
     end
 
     context "when paginate result" do
