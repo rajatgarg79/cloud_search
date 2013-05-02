@@ -58,13 +58,10 @@ module CloudSearch
       return unless body['facets']
 
       body['facets'].each do |facet, result|
-        if result['constraints']
-          @facets[facet] = {}
-          result['constraints'].each do |item|
-            @facets[facet][item['value']] = item['count']
-          end
+        @facets[facet] = if result['constraints']
+          result['constraints'].inject({}) { |hash, item| hash[item['value']] = item['count']; hash }
         else
-          @facets[facet] = result
+          result
         end
       end
     end
