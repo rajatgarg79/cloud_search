@@ -97,7 +97,10 @@ module CloudSearch
         u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields.any?
         u.concat("&#{filter_expression}") if @filters.any?
         u.concat("&facet=#{@facets.join(',')}") if @facets.any?
-        u.concat(@facets_constraints.map { |k,v| "facet-#{k}-constraints=#{v.join(',')}" }.join('&'))
+        u.concat(@facets_constraints.map do |k,v|
+          values = v.respond_to?(:map) ? v.map{ |i| "'#{i}'" } : ["'#{v}'"]
+          "&facet-#{k}-constraints=#{values.join(',')}"
+        end.join('&'))
         u.concat("&rank=#{@rank}") if @rank
       end
     end

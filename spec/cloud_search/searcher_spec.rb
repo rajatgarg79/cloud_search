@@ -49,7 +49,7 @@ describe CloudSearch::Searcher do
 
   describe "#with_facet_constraints" do
     it "setup facets" do
-      searcher.with_facet_constraints(:foo => ["bar", "spam"]).url.should include "facet-foo-constraints=bar,spam"
+      searcher.with_facet_constraints(:foo => ["bar", "spam"]).url.should include "facet-foo-constraints='bar','spam'"
     end
   end
 
