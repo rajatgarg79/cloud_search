@@ -41,6 +41,18 @@ describe CloudSearch::Searcher do
     end
   end
 
+  describe "#with_facet" do
+    it "setup facets" do
+      searcher.with_facets("foo", "bar").url.should include "facet=foo,bar"
+    end
+  end
+
+  describe "#with_facet_constraints" do
+    it "setup facets" do
+      searcher.with_facet_constraints(:foo => ["bar", "spam"]).url.should include "facet-foo-constraints=bar,spam"
+    end
+  end
+
   describe "#ranked_by" do
     it "returns the instance" do
       searcher.ranked_by("foobar").should == searcher
@@ -234,12 +246,6 @@ describe CloudSearch::Searcher do
     end
 
     context "when paginate result" do
-      before do
-        searcher
-        .with_fields(:actor, :director, :title, :year, :text_relevance)
-        .with_query("star wars")
-      end
-
       it "returns first page" do
         VCR.use_cassette "search/request/paginated_first_page" do
           searcher.with_items_per_page(4)
