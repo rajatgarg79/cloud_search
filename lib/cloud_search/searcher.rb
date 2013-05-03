@@ -9,6 +9,9 @@ module CloudSearch
     def initialize
       @response = SearchResponse.new
       @filters  = []
+      @facets   = []
+      @fields   = []
+      @facets_constraints = {}
     end
 
     def search
@@ -26,6 +29,16 @@ module CloudSearch
 
     def with_filter(filter)
       @filters << filter
+      self
+    end
+
+    def with_facets(*facets)
+      @facets += facets
+      self
+    end
+
+    def with_facet_constraints(facets_constraints)
+      @facets_constraints = facets_constraints
       self
     end
 
@@ -49,7 +62,7 @@ module CloudSearch
     end
 
     def with_fields(*fields)
-      @fields = fields
+      @fields += fields
       self
     end
 
@@ -81,8 +94,13 @@ module CloudSearch
 
       "#{CloudSearch.config.search_url}/search".tap do |u|
         u.concat("?#{query_parameter}=#{query}&size=#{items_per_page}&start=#{start}")
-        u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields && @fields.any?
+        u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields.any?
         u.concat("&#{filter_expression}") if @filters.any?
+        u.concat("&facet=#{@facets.join(',')}") if @facets.any?
+        u.concat(@facets_constraints.map do |k,v|
+          values = v.respond_to?(:map) ? v.map{ |i| "'#{i}'" } : ["'#{v}'"]
+          "&facet-#{k}-constraints=#{values.join(',')}"
+        end.join('&'))
         u.concat("&rank=#{@rank}") if @rank
       end
     end
