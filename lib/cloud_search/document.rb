@@ -48,7 +48,7 @@ module CloudSearch
     def run_id_validations
       validate :id do |messages|
         messages << "can't be blank" if blank?(:id)
-        messages << "is invalid" unless blank?(:id) or id =~ /\A[^_][a-z0-9_]+\z/
+        messages << "is invalid" unless blank?(:id) or id =~ /\A(?!_)[a-z0-9_]+\z/
       end
     end
 

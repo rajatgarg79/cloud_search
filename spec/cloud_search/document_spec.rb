@@ -69,6 +69,18 @@ describe CloudSearch::Document do
       document.valid?
       expect(document.errors[:id]).to be_nil
     end
+    
+    it "is valid with single-digit integers" do
+      document = described_class.new :id => 1
+      document.valid?
+      expect(document.errors[:id]).to be_nil
+    end
+    
+    it "is valid with single-character strings" do
+      document = described_class.new :id => "a"
+      document.valid?
+      expect(document.errors[:id]).to be_nil
+    end
 
     it "converts integers to strings" do
       expect(described_class.new(:id => 123).id).to eq("123")
