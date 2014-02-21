@@ -56,17 +56,9 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
          .search
 ```
 
-### You can use weighted fields in your search
-``` ruby
-searcher = CloudSearch::Searcher.new
-resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
-         .with_weights(:title => 3, :actor => 2, :default_weight => 1)
-         .as_boolean_query
-         .with_query("year:2000")
-         .search
-```
-
 ### You can sort the result using a rank expression (previously created on your CloudSearch domain)
+[http://docs.aws.amazon.com/cloudsearch/latest/developerguide/tuneranking.html](Rank expressions) allow you to customize how results are ranked. You can use them to weight specific fields, or limit results only to those that meet a certain numeric threshold.
+
 ``` ruby
 searcher = CloudSearch::Searcher.new
 resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
