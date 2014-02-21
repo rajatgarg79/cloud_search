@@ -1,7 +1,7 @@
 module CloudSearch
   class SearchResponse
     attr_writer   :items_per_page
-    attr_reader   :current_page, :total_pages, :body, :facets
+    attr_reader   :current_page, :total_pages, :num_pages, :body, :facets
     attr_accessor :http_code
 
     def body=(body)
@@ -47,10 +47,13 @@ module CloudSearch
       num_full_pages = hits / items_per_page
       @total_pages   = hits % items_per_page > 0 ? num_full_pages + 1 : num_full_pages
       @total_pages   = 1 if @total_pages == 0
-
+      
       start = _hits["start"] || 0
       @current_page = (start / items_per_page) + 1
       @current_page = @total_pages if @current_page > @total_pages
+      
+      # Kaminari aliases
+      @num_pages = @total_pages
     end
 
     def build_facets
