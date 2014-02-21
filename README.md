@@ -57,7 +57,7 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
 ```
 
 ### You can sort the result using a rank expression (previously created on your CloudSearch domain)
-[http://docs.aws.amazon.com/cloudsearch/latest/developerguide/tuneranking.html](Rank expressions) allow you to customize how results are ranked. You can use them to weight specific fields, or limit results only to those that meet a certain numeric threshold.
+[Rank expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/tuneranking.html) allow you to customize how results are ranked. You can use them to weight specific fields, or limit results only to those that meet a certain numeric threshold.
 
 ``` ruby
 searcher = CloudSearch::Searcher.new
@@ -110,7 +110,7 @@ resp.offset        #=> 300
 resp.page_size     #=> 30
 ```
 
-[https://github.com/amatsuda/kaminari](Kaminari) users can use the same `at_page()` and `with_items_per_page()` methods with the searcher. In the view, `paginate` will work as expected with the response: `<%= paginate @response %>`
+[Kaminari](https://github.com/amatsuda/kaminari) users can use the same `at_page()` and `with_items_per_page()` methods with the searcher. In the view, `paginate` will work as expected with the response: `<%= paginate @response %>`
 
 ## Indexing documents
 
