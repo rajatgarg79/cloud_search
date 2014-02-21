@@ -101,7 +101,7 @@ end
 
 ## Pagination
 
-The results you get back are (currently) API-compatible with will\_paginate:
+The results you get back are (currently) API-compatible with will\_paginate and kaminari:
 
 ``` ruby
 searcher = CloudSearch::Searcher.new
@@ -117,6 +117,8 @@ resp.current_page  #=> 10
 resp.offset        #=> 300
 resp.page_size     #=> 30
 ```
+
+[https://github.com/amatsuda/kaminari](Kaminari) users can use the same `at_page()` and `with_items_per_page()` methods with the searcher. In the view, `paginate` will work as expected with the response: `<%= paginate @response %>`
 
 ## Indexing documents
 
