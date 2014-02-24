@@ -63,7 +63,7 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
 searcher = CloudSearch::Searcher.new
 resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
            .with_query("matrix")
-           .ranked_with("my_rank_expression")
+           .ranked_by("my_rank_expression")
 ```
 
 If you want to rank using descending order, just prepend the expression name with a '-' sign:
@@ -71,7 +71,7 @@ If you want to rank using descending order, just prepend the expression name wit
 ``` ruby
 resp = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
        .with_query("matrix")
-       .ranked_with("-my_rank_expression")
+       .ranked_by("-my_rank_expression")
 ```
 
 ## Results
