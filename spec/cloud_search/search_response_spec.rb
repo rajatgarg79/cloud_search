@@ -150,34 +150,42 @@ describe CloudSearch::SearchResponse do
       subject.items_per_page = 8
       subject.body = seven_hits
       subject.total_pages.should == 1
+      subject.num_pages.should == 1
 
       subject.items_per_page = 7
       subject.body = seven_hits
       subject.total_pages.should == 1
+      subject.num_pages.should == 1
 
       subject.items_per_page = 6
       subject.body = seven_hits
       subject.total_pages.should == 2
+      subject.num_pages.should == 2
 
       subject.items_per_page = 5
       subject.body = seven_hits
       subject.total_pages.should == 2
+      subject.num_pages.should == 2
 
       subject.items_per_page = 4
       subject.body = seven_hits
       subject.total_pages.should == 2
+      subject.num_pages.should == 2
 
       subject.items_per_page = 3
       subject.body = seven_hits
       subject.total_pages.should == 3
+      subject.num_pages.should == 3
 
       subject.items_per_page = 2
       subject.body = seven_hits
       subject.total_pages.should == 4
+      subject.num_pages.should == 4
 
       subject.items_per_page = 1
       subject.body = seven_hits
       subject.total_pages.should == 7
+      subject.num_pages.should == 7
     end
 
     it "returns current page based on start and items per page" do

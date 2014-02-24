@@ -56,22 +56,14 @@ resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevanc
          .search
 ```
 
-### You can use weighted fields in your search
-``` ruby
-searcher = CloudSearch::Searcher.new
-resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
-         .with_weights(:title => 3, :actor => 2, :default_weight => 1)
-         .as_boolean_query
-         .with_query("year:2000")
-         .search
-```
-
 ### You can sort the result using a rank expression (previously created on your CloudSearch domain)
+[Rank expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/tuneranking.html) allow you to customize how results are ranked. You can use them to weight specific fields, or limit results only to those that meet a certain numeric threshold.
+
 ``` ruby
 searcher = CloudSearch::Searcher.new
 resp     = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
            .with_query("matrix")
-           .ranked_with("my_rank_expression")
+           .ranked_by("my_rank_expression")
 ```
 
 If you want to rank using descending order, just prepend the expression name with a '-' sign:
@@ -79,7 +71,7 @@ If you want to rank using descending order, just prepend the expression name wit
 ``` ruby
 resp = searcher.with_fields(:actor, :director, :title, :year, :text_relevance)
        .with_query("matrix")
-       .ranked_with("-my_rank_expression")
+       .ranked_by("-my_rank_expression")
 ```
 
 ## Results
@@ -101,7 +93,7 @@ end
 
 ## Pagination
 
-The results you get back are (currently) API-compatible with will\_paginate:
+The results you get back are (currently) API-compatible with will\_paginate and kaminari:
 
 ``` ruby
 searcher = CloudSearch::Searcher.new
@@ -117,6 +109,8 @@ resp.current_page  #=> 10
 resp.offset        #=> 300
 resp.page_size     #=> 30
 ```
+
+[Kaminari](https://github.com/amatsuda/kaminari) users can use the same `at_page()` and `with_items_per_page()` methods with the searcher. In the view, `paginate` will work as expected with the response: `<%= paginate @response %>`
 
 ## Indexing documents
 
