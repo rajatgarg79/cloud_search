@@ -18,9 +18,12 @@ module CloudSearch
     end
 
     def index
+	puts url
       cloud_search_response = RestClient.post url, documents_json, headers
       message               = "#{cloud_search_response.code} - #{cloud_search_response.length} bytes\n#{url}\n"
       response              = JSON.parse cloud_search_response.body
+
+      puts JSON.parse cloud_search_response
 
       [response, message]
     end
@@ -42,3 +45,4 @@ module CloudSearch
     end
   end
 end
+
