@@ -206,7 +206,7 @@ module CloudSearch
 			if @custom_for_search_params.keys.size > 1
                         custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"')+(and+"
 			elsif @custom_for_search_params.keys.size == 1
-			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured"
+			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier']%7D"
 			end
                         @custom_for_search_params.each{|key,value_array|
                                         if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
@@ -245,7 +245,7 @@ module CloudSearch
 				
 			end
 			}
-                        custom_url = custom_url + "))&q.parser=structured"
+                        custom_url = custom_url + "))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier']%7D"
                         return custom_url
 		
 
@@ -273,5 +273,6 @@ module CloudSearch
     end
   end
 end
+
 
 
