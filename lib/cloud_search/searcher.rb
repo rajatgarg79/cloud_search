@@ -15,6 +15,7 @@ module CloudSearch
     end
 
     def search
+	Rails.logger.info url
       cloud_search_response = RestClient.get url
       @response.http_code   = cloud_search_response.code
       @response.body        = cloud_search_response.body
@@ -32,8 +33,8 @@ module CloudSearch
       self
     end
 
-    def with_facets(*facets)
-      @facets += facets
+    def with_facets(facets)
+      @facets = facets
       self
     end
 
@@ -46,7 +47,10 @@ module CloudSearch
       @boolean = true
       self
     end
-
+    def as_custom_query_for_supplier
+	 @custom = true
+      self
+    end
     def ranked_by(rank_expression)
       @rank = rank_expression
       self
@@ -55,12 +59,26 @@ module CloudSearch
     def query
       return '' unless @query
       URI.escape(@query).gsub('&', '%26')
+#      URI.parse(URI.encode(URI.escape(@query).gsub('&', '%26')))
     end
 
     def boolean_query?
       !!@boolean
     end
+    def custom_query_for_supplier?
+	!!@custom
 
+   end
+   def with_query_with_constraints(const)
+		@custom_for_category_params= const
+	self
+  end
+	def with_query_with_search(search_const)
+		@custom_for_search_params = search_const
+	self
+  end
+	
+   
     def with_fields(*fields)
       @fields += fields
       self
@@ -91,12 +109,26 @@ module CloudSearch
 
     def url
       check_configuration_parameters
-
-      "#{CloudSearch.config.search_url}/search".tap do |u|
-        u.concat("?#{query_parameter}=#{query}&size=#{items_per_page}&start=#{start}")
-        u.concat("&return-fields=#{URI.escape(@fields.join(","))}") if @fields.any?
+	if @facets.any?
+	facet = ""
+	@facets.each{|f|
+#		if f == "price" || f== "discount"
+#		facet = facet + "&" + "facet.#{f}={sort:'count'}"
+#		elsif f.include?("discount_with_bucket")
+#			next
+#		elsif f.include?("price_with_bucket")
+#			next
+#		else	
+		facet = facet + "&" + "facet.#{f}={}"
+#		end
+		}
+	end
+	puts facet
+	"#{CloudSearch.config.search_url}/search".tap do |u|
+        u.concat("?#{query_parameter}&size=#{items_per_page}&start=#{start}")
+        u.concat("&return=#{URI.escape(@fields.join(","))}") if @fields.any?
         u.concat("&#{filter_expression}") if @filters.any?
-        u.concat("&facet=#{@facets.join(',')}") if @facets.any?
+        u.concat("#{URI.escape(facet)}") if @facets.any?
         u.concat(@facets_constraints.map do |k,v|
           values = v.respond_to?(:map) ? v.map{ |i| "'#{i}'" } : ["'#{v}'"]
           "&facet-#{k}-constraints=#{values.join(',')}"
@@ -108,12 +140,138 @@ module CloudSearch
     private
 
     def query_parameter
-      boolean_query? ? "bq" : "q"
-    end
+	      if boolean_query? 
+			return  "q.parser=structured&q=#{query}" 
+
+
+
+		elsif	custom_query_for_supplier? 
+			return  "q=(and+(term+field%3Dsupplier+'#{query}'))&q.parser=structured" 
+
+
+		elsif  !@custom_for_category_params.blank?
+		
+			custom_url = "q="
+			catg = @custom_for_category_params["category_id"]
+			if @custom_for_category_params.keys.size> 2
+			custom_url = custom_url + "(and+category_id:'#{catg}'+(and+"
+			elsif @custom_for_category_params.keys.size == 2
+			return	custom_url = custom_url + "(and+category_id:'#{catg}')&q.parser=structured"
+			end
+			@custom_for_category_params.each{|key,value_array|
+					if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
+						 custom_url = custom_url + "(or+"
+						value_array.each{|value|
+						value.each{|to_search|
+							custom_url = custom_url + URI.escape("#{key}:'#{to_search}'+")
+						}
+						}
+						custom_url = custom_url + ")+"
+					end
+				}
+			    array = Array.new
+                        array = ["price","discount","ratings"]
+                        array.each{|ranges_field|
+                         if @custom_for_category_params.key?(ranges_field)
+                                              value_array = @custom_for_category_params[ranges_field]
+                                                value_array.each{|value|
+                                                min_max = value.split(',')
+                                                if min_max.size == 2
+                                                min = min_max.first
+                                                max = min_max.last
+                                                else
+							if value[0] == ','
+                                                                min = ""
+                                                                max = min_max.first
+                                                        elsif
+                                                                min =  min_max.first
+                                                                max = ""
+                                                        end
+
+                                                end
+                                                
+                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
+                                                }
+
+                        end
+                        }
+                        custom_url = custom_url + "))&q.parser=structured"
+                        return custom_url
+
+		elsif !@custom_for_search_params.blank?
+
+			  Rails.logger.info @custom_for_search_params
+                        custom_url = "q="
+                        key_word = @custom_for_search_params["query"]
+			if @custom_for_search_params.keys.size > 1
+                        custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"')+(and+"
+			elsif @custom_for_search_params.keys.size == 1
+			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured"
+			end
+                        @custom_for_search_params.each{|key,value_array|
+                                        if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
+						custom_url = custom_url + "(or+"
+                                                value_array.each{|value|
+                                                value.each{|to_search|
+                                                        custom_url = custom_url + URI.escape("#{key}:'#{to_search}'+")
+                                                }
+                                                }
+						custom_url = custom_url + ")+"
+                                        end
+                                }
+			array = Array.new
+			array = ["price","discount","ratings"]
+			array.each{|ranges_field|
+                         if @custom_for_search_params.key?(ranges_field)
+					      value_array = @custom_for_search_params[ranges_field]
+                                                value_array.each{|value|
+                                                min_max = value.split(',')
+						if min_max.size == 2
+                                                min = min_max.first
+                                                max = min_max.last
+						else
+							
+							 if value[0] == ','
+                                                                min = ""
+                                                                max = min_max.first
+                                                        elsif
+                                                                min =  min_max.first
+                                                                max = ""
+                                                        end
+
+						end
+                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
+                                                }
+				
+			end
+			}
+                        custom_url = custom_url + "))&q.parser=structured"
+                        return custom_url
+		
+
+
+
+
+		elsif
+			@facets.each{|f|
+                if f.include?("price_with_bucket")
+                        range = f.split('/')
+#                        facet = facet + "&" + "facet.discount={buckets:[#{range[-2]},#{range[-1]}]}"
+			return "q=(and+(term+'#{query}')+(range+field%3Dprice+{#{range[-2]},#{range[-1]}}))&q.parser=structured"
+                elsif f.include?("discount_with_bucket")
+                        range = f.split('/')
+                        facet = facet + "&" + "facet.price={buckets:[#{range[-2]},#{range[-1]}]}"
+		end
+                }
+			return "q=(and+(term+'#{query}'))&q.parser=structured"
+			return  "q=#{query}"	
+	    end
+	end
 
     def filter_expression
       @filters.join("&")
     end
   end
 end
+
 
