@@ -154,9 +154,9 @@ module CloudSearch
 			custom_url = "q="
 			catg = @custom_for_category_params["category_id"]
 			if @custom_for_category_params.keys.size> 2
-			custom_url = custom_url + "(and+category_id:'#{catg}'+(and+"
+			custom_url = custom_url + "(and+category_id_array:'#{catg}'+(and+"
 			elsif @custom_for_category_params.keys.size == 2
-			return	custom_url = custom_url + "(and+category_id:'#{catg}')&q.parser=structured"
+			return	custom_url = custom_url + "(and+category_id_array:'#{catg}')&q.parser=structured"
 			end
 			@custom_for_category_params.each{|key,value_array|
 					if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
