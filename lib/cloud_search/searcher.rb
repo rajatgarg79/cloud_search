@@ -146,7 +146,11 @@ module CloudSearch
 
 
 		elsif	custom_query_for_supplier? 
-			return  "q=(and+(term+field%3Dsupplier+'#{query}'))&q.parser=structured" 
+			 if !query.blank?
+                        query_pa= query.split("%23and%23")
+                        end
+                        return  "q=(and+(term+field%3D#{query_pa[1]}+'#{query_pa[0]}'))&q.parser=structured"
+
 
 
 		elsif  !@custom_for_category_params.blank?
