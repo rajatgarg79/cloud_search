@@ -249,7 +249,7 @@ module CloudSearch
 				
 			end
 			}
-                        custom_url = custom_url + "))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier']%7D"
+                        custom_url = custom_url + "))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier','brand']%7D"
                         return custom_url
 		
 
