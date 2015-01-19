@@ -174,7 +174,7 @@ module CloudSearch
 					end
 				}
 			    array = Array.new
-                        array = ["price","discount","ratings"]
+                        array = ["price","discount","rating"]
                         array.each{|ranges_field|
                          if @custom_for_category_params.key?(ranges_field)
                                               value_array = @custom_for_category_params[ranges_field]
@@ -224,7 +224,7 @@ module CloudSearch
                                         end
                                 }
 			array = Array.new
-			array = ["price","discount","ratings"]
+			array = ["price","discount","rating"]
 			array.each{|ranges_field|
                          if @custom_for_search_params.key?(ranges_field)
 					      value_array = @custom_for_search_params[ranges_field]
