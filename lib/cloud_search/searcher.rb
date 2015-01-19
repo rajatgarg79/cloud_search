@@ -163,7 +163,7 @@ module CloudSearch
 			return	custom_url = custom_url + "(and+category_id_array:'#{catg}')&q.parser=structured"
 			end
 			@custom_for_category_params.each{|key,value_array|
-					if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
+					if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
 						 custom_url = custom_url + "(or+"
 						value_array.each{|value|
 						value.each{|to_search|
@@ -213,7 +213,7 @@ module CloudSearch
 			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier','brand']%7D"
 			end
                         @custom_for_search_params.each{|key,value_array|
-                                        if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "ratings"
+                                        if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
 						custom_url = custom_url + "(or+"
                                                 value_array.each{|value|
                                                 value.each{|to_search|
