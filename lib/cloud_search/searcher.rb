@@ -195,7 +195,7 @@ module CloudSearch
 
                                                 end
                                                 
-                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
+                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+["+URI.escape("#{min},#{max}")+"%7D)+"
                                                 }
 
                         end
@@ -245,7 +245,7 @@ module CloudSearch
                                                         end
 
 						end
-                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
+                                                custom_url = custom_url + "(range+field%3D#{ranges_field}+["+URI.escape("#{min},#{max}")+"%7D)+"
                                                 }
 				
 			end
