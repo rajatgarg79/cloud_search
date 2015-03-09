@@ -194,7 +194,7 @@ module CloudSearch
                                                         end
 
                                                 end
-                                                if ranges_field != "rating"
+                                                if ranges_field == "price"
                                                 custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
                                                 else
                                                 custom_url = custom_url + "(range+field%3D#{ranges_field}+["+URI.escape("#{min},#{max}")+"%7D)+"
@@ -248,7 +248,7 @@ module CloudSearch
                                                         end
 
 						end
-                                                if ranges_field != "rating"
+                                                if ranges_field == "price"
                                                 custom_url = custom_url + "(range+field%3D#{ranges_field}+%7B"+URI.escape("#{min},#{max}")+"%7D)+"
                                                 else
                                                 custom_url = custom_url + "(range+field%3D#{ranges_field}+["+URI.escape("#{min},#{max}")+"%7D)+"
