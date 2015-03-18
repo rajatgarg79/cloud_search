@@ -217,6 +217,7 @@ module CloudSearch
 			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier','brand','text_to_search']%7D"
 			end
 			if @custom_for_search_params.key?("brand_id")
+				custom_url = "q="
 				custom_url = custom_url + "(and+(and+"
 			end
                         @custom_for_search_params.each{|key,value_array|
