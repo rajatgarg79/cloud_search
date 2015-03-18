@@ -219,7 +219,9 @@ module CloudSearch
 			if @custom_for_search_params.key?("brand_id")
 				custom_url = "q="
 				custom_url = custom_url + "(and+(and+"
+				Rails.logger.info custom_url
 			end
+			Rails.logger.info custom_url
                         @custom_for_search_params.each{|key,value_array|
                                         if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
 						custom_url = custom_url + "(or+"
