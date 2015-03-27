@@ -119,7 +119,7 @@ module CloudSearch
 #		elsif f.include?("price_with_bucket")
 #			next
 #		else	
-		if f == "category"
+		if f == "category_id"
 			facet = facet + "&" + "facet.#{f}={sort:"+'"count"'+", size:100}"
 		else
 	 		facet = facet + "&" + "facet.#{f}={sort:"+'"count"'+", size:50}"
