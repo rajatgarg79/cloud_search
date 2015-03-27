@@ -211,7 +211,7 @@ module CloudSearch
 
 		elsif !@custom_for_search_params.blank?
 
-			  Rails.logger.info @custom_for_search_params
+			  
                         custom_url = "q="
                         key_word = @custom_for_search_params["query"]
 			if @custom_for_search_params.keys.size > 1
@@ -222,11 +222,13 @@ module CloudSearch
 			if @custom_for_search_params.key?("brand_id")
 				custom_url = "q="
 				custom_url = custom_url + "(and+(and+"
-				Rails.logger.info custom_url
+			
 			end
-			Rails.logger.info custom_url
+			
                         @custom_for_search_params.each{|key,value_array|
                         		if key == "category_id" 
+                        			 Rails.logger.info custom_url key
+                        			 Rails.logger.info custom_url value_array
 						custom_url = custom_url + "(or+" + URI.escape("#{category_id_array}:'#{value_array}'+") +")+"
 					end
                                         if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
