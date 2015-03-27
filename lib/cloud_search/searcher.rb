@@ -226,6 +226,9 @@ module CloudSearch
 			end
 			Rails.logger.info custom_url
                         @custom_for_search_params.each{|key,value_array|
+                        		if key == "category_id" 
+						custom_url = custom_url + "(or+" + URI.escape("#{category_id_array}:'#{value_array}'+") +")+"
+					end
                                         if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
 						custom_url = custom_url + "(or+"
                                                 value_array.each{|value|
