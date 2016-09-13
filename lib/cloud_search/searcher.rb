@@ -214,10 +214,20 @@ module CloudSearch
 			  
                         custom_url = "q="
                         key_word = @custom_for_search_params["query"]
+                        search_term_pattern =""
+                        if key_word.include?(",")
+                        	_search_term_pattern = []
+                        	key_word.split(",").each {|k|
+                        		_search_term_pattern << "(term+'"+URI.escape("#{k}")+"')"
+                        	}
+                        	search_term_pattern = "(or #{_search_term_pattern.join(" ")})"
+                        else
+                        	search_term_pattern = "(term+'"+URI.escape("#{key_word}")+"')"	
+                        end
 			if @custom_for_search_params.keys.size > 1
-                        custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"')+(and+"
+                        custom_url = custom_url + "(and+#{search_term_pattern}+(and+"
 			elsif @custom_for_search_params.keys.size == 1
-			return custom_url = custom_url + "(and+(term+'"+URI.escape("#{key_word}")+"'))&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier','brand','text_to_search']%7D"
+			return custom_url = custom_url + "(and+#{search_term_pattern})&q.parser=structured&q.options=%7Bfields:['name','isbn13','supplier','brand','text_to_search']%7D"
 			end
 			if @custom_for_search_params.key?("brand_id")
 				custom_url = "q="
