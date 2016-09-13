@@ -220,7 +220,7 @@ module CloudSearch
                         	key_word.split(",").each {|k|
                         		_search_term_pattern << "(term+'"+URI.escape("#{k}")+"')"
                         	}
-                        	search_term_pattern = "(or #{_search_term_pattern.join(" ")})"
+                        	search_term_pattern = "(or+#{_search_term_pattern.join("+")})"
                         else
                         	search_term_pattern = "(term+'"+URI.escape("#{key_word}")+"')"	
                         end
@@ -236,9 +236,7 @@ module CloudSearch
 			end
 			
                         @custom_for_search_params.each{|key,value_array|
-                        		if key == "category_id" 
-                        			 Rails.logger.info  key
-                        			 Rails.logger.info value_array
+                        		if key == "category_id"
 						custom_url = custom_url + "(or+" + URI.escape("category_id_array:'#{value_array}'+") +")+"
 					end
                                         if key != "category_id" && value_array.class == Array && key != "price" && key != "discount" && key != "rating"
